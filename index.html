@@ -1,0 +1,1259 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Hasir Sayed — AI/ML engineer portfolio." />
+  <title>Hasir Sayed — AI/ML Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet" />
+  <style>
+    :root { --ink:#17202a; --paper:#f6f1e9; --paper-deep:#eae1d4; --red:#bd3d36; --blue:#6f91aa; --line:rgba(23,32,42,.12); }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; color:var(--ink); background:var(--paper); font-family:"DM Sans", sans-serif; }
+    a { color:inherit; text-decoration:none; }
+    .masthead { height:10px; background:var(--ink); }
+    .nav { max-width:1200px; margin:auto; padding:22px 30px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--line); }
+    .wordmark { font:700 18px "DM Mono", monospace; letter-spacing:-.08em; }
+    .wordmark span { color:var(--red); }
+    .nav-links { display:flex; gap:25px; font:500 11px "DM Mono", monospace; letter-spacing:.05em; text-transform:uppercase; }
+    .nav-links a:hover { color:var(--red); }
+    .nav .caption { color:var(--red) !important; display:inline-flex !important; align-items:center; gap:6px; font-weight:700; text-decoration:none; }
+    .nav .caption::before { content:""; display:inline-block; width:6px; height:6px; background:#27ae60; border-radius:50%; }
+    .container { max-width:1200px; margin:auto; padding:0 30px; }
+    .hero { min-height:620px; display:grid; grid-template-columns:1.14fr .86fr; align-items:center; gap:52px; border-bottom:1px solid var(--line); }
+    .eyebrow, .caption { font:700 11px "DM Mono", monospace; letter-spacing:.13em; text-transform:uppercase; color: var(--ink); opacity: 0.85; }
+    .eyebrow { color:var(--red); margin-bottom:20px; }
+    h1 { max-width:700px; margin:0; font:800 clamp(44px,6.2vw,84px)/.88 "Playfair Display", serif; letter-spacing:-.08em; }
+    h1 em { color:var(--red); font-weight:700; }
+    .lede { max-width:440px; margin:28px 0; font-size:18px; line-height:1.55; color:#46515c; }
+    .hero-actions { display:flex; gap:20px; align-items:center; }
+    .button { display:inline-flex; align-items:center; gap:10px; background:var(--ink); color:var(--paper); padding:14px 17px; font:500 11px "DM Mono", monospace; letter-spacing:.08em; text-transform:uppercase; transition:.2s; text-decoration:none; }
+    .button:hover { background:var(--red); transform:translateY(-2px); }
+    .button-secondary { display:inline-flex; align-items:center; gap:10px; background:none; color:var(--ink); border:1px solid var(--ink); padding:14px 17px; font:500 11px "DM Mono", monospace; letter-spacing:.08em; text-transform:uppercase; transition:.2s; text-decoration:none; }
+    .button-secondary:hover { background:var(--ink); color:var(--paper); transform:translateY(-2px); }
+    .text-link { border-bottom:1px solid var(--ink); padding-bottom:3px; font:500 11px "DM Mono",monospace; text-transform:uppercase; }
+    .field-notes { align-self:stretch; margin:75px 0; padding:32px; background:var(--paper-deep); border:1px solid var(--ink); position:relative; }
+    .field-notes:before { content:""; position:absolute; inset:14px; pointer-events:none; border:1px solid rgba(23, 32, 42, 0.15); }
+    .field-notes h2 { position:relative; margin:29px 0 25px; font:700 24px/1.05 "Playfair Display",serif; letter-spacing:-.05em; }
+    .field-notes dl { position:relative; margin:0; }
+    .field-notes div { padding:13px 0; border-top:1px solid var(--line); } .field-notes dt { font:500 10px "DM Mono",monospace; color:#80201b; text-transform:uppercase; } .field-notes dd { margin:5px 0 0; font-size:14px; line-height:1.35; }
+    section { padding:110px 0; }
+    #story { padding-bottom: 150px; }
+    .section-head { display:grid; grid-template-columns:140px 1fr; padding-bottom:26px; border-bottom:1px solid var(--ink); margin-bottom:36px; align-items: baseline; }
+    .section-head h2 { margin:0; font:800 clamp(26px,3.8vw,44px)/0.98 "Playfair Display",serif; letter-spacing:-.06em; }
+    .section-head .caption { padding-top:8px; color:var(--red); }
+    .chronicle { display:block; position:relative; }
+    
+    /* Inline Timeline Progress Track */
+    .timeline-track-main {
+      position: absolute;
+      left: 16px;
+      top: 38px;
+      bottom: 38px;
+      width: 2px;
+      background: var(--line);
+      z-index: 1;
+    }
+    .timeline-progress-main {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 0%;
+      background: var(--red);
+      z-index: 2;
+      transition: height 0.1s ease;
+      box-shadow: 0 0 8px rgba(189, 61, 54, 0.4);
+    }
+    
+    /* Full-Width Timeline Cards Container */
+    .timeline-scroll-container {
+      position: relative;
+      padding-left: 46px;
+    }
+
+    /* Tactile Cards */
+    .timeline-card {
+      background: var(--paper-deep);
+      border: 1px solid var(--line);
+      padding: 32px;
+      margin-bottom: 24px;
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .timeline-card:hover {
+      border-color: var(--ink);
+      box-shadow: 6px 6px 0px var(--ink);
+      transform: translate(-4px, -4px);
+    }
+    .timeline-card-dot {
+      position: absolute;
+      left: -35px;
+      top: 36px;
+      width: 12px;
+      height: 12px;
+      background: var(--paper);
+      border: 2px solid var(--line);
+      border-radius: 50%;
+      z-index: 5;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .timeline-card-dot.active {
+      background: var(--red);
+      border-color: var(--red);
+      transform: scale(1.3);
+      box-shadow: 0 0 10px rgba(189, 61, 54, 0.6);
+    }
+    .timeline-card:hover .timeline-card-dot {
+      transform: translate(4px, 4px);
+    }
+    .timeline-card:hover .timeline-card-dot.active {
+      transform: translate(4px, 4px) scale(1.3);
+    }
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font: 500 11px "DM Mono", monospace;
+      color: #66717c;
+      text-transform: uppercase;
+    }
+    .card-meta .status-badge {
+      color: var(--red);
+      border: 1px solid var(--red);
+      padding: 2px 6px;
+      font-size: 9px;
+      letter-spacing: 0.05em;
+    }
+    .card-title {
+      margin: 0 0 12px;
+      font: 700 20px/1.15 "Playfair Display", serif;
+      color: var(--ink);
+    }
+    .card-desc {
+      max-width: 650px;
+      margin: 0 0 16px;
+      color: #2c353d;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+    
+    /* Experience Card Details styling */
+    .card-details {
+      display: block;
+      margin-top: 16px;
+    }
+    .details-divider {
+      height: 1px;
+      background: var(--line);
+      margin: 8px 0 20px;
+    }
+    .details-section-title {
+      font: 500 10px "DM Mono", monospace;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      letter-spacing: 0.1em;
+    }
+    .details-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 16px;
+    }
+    .details-item {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 8px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #2c353d;
+    }
+    .details-item::before {
+      content: "·";
+      position: absolute;
+      left: 0;
+      color: var(--red);
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 1;
+      top: -1px;
+    }
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .tech-tag {
+      background: rgba(23, 32, 42, 0.04);
+      border: 1px dashed var(--line);
+      padding: 5px 10px;
+      font: 500 10px "DM Mono", monospace;
+      color: var(--ink);
+    }
+
+    .tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; border-top:1px solid rgba(23, 32, 42, 0.08); padding-top:16px; }
+    .tag { border:1px solid var(--line); padding:6px 12px; font:500 10px "DM Mono",monospace; transition: all 0.2s; }
+    .tag:hover { border-color: var(--red); color: var(--red); background: rgba(189, 61, 54, 0.04); }
+
+    .projects { background:var(--ink); color:var(--paper); padding:105px 0; }
+    .projects .section-head { border-color:rgba(246,241,233,.18); } .projects .section-head .caption { color:#e49e97; }
+    
+    /* Spacious Single-Column Projects Layout */
+    .project-grid { display:flex; flex-direction:column; border-top:1px solid rgba(246,241,233,.18); }
+    .project {
+      display: block;
+      padding: 56px 0;
+      border-bottom: 1px solid rgba(246,241,233,.15);
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      text-decoration: none;
+    }
+    .project:hover h3 {
+      color: #db8178;
+    }
+    .project:hover .arrow {
+      transform: translate(6px,-6px);
+      color: #db8178;
+    }
+    .project-index {
+      display: block;
+      font: 500 11px "DM Mono", monospace;
+      color: #db8178;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 14px;
+    }
+    .project h3 {
+      margin: 0 0 16px;
+      font: 700 clamp(22px, 3.2vw, 32px)/1.0 "Playfair Display", serif;
+      letter-spacing: -.03em;
+      max-width: 800px;
+      transition: color 0.3s ease;
+    }
+    .project p {
+      margin: 0;
+      color: var(--paper);
+      line-height: 1.6;
+      max-width: 850px;
+      font-size: 16px;
+    }
+    .project .tags {
+      margin-top: 24px;
+      border-top: none;
+      padding-top: 0;
+    }
+    .projects .tag {
+      color: #ddd5ca;
+      border-color: rgba(246,241,233,.3);
+    }
+    .arrow {
+      position: absolute;
+      right: 20px;
+      top: 56px;
+      font: 24px "DM Mono", monospace;
+      transition: .3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      border-top: 1px solid var(--ink);
+      padding-top: 36px;
+    }
+    .skill-card {
+      background: var(--paper-deep);
+      border: 1px solid var(--line);
+      padding: 24px;
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .skill-card:hover {
+      border-color: var(--ink);
+      box-shadow: 4px 4px 0px var(--ink);
+      transform: translate(-3px, -3px);
+    }
+    .skill-card h3 {
+      margin: 0 0 10px;
+      font: 700 16px "Playfair Display", serif;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      border-bottom: 1px solid rgba(23, 32, 42, 0.08);
+      padding-bottom: 4px;
+    }
+    .skill-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .skill-pill {
+      display: inline-block;
+      font: 500 10px "DM Mono", monospace;
+      background: rgba(23, 32, 42, 0.06);
+      border: 1px solid rgba(23, 32, 42, 0.16);
+      padding: 5px 9px;
+      color: var(--ink);
+      border-radius: 0px;
+      transition: all 0.2s;
+    }
+    .skill-pill:hover {
+      background: var(--ink) !important;
+      color: var(--paper) !important;
+      border-color: var(--ink) !important;
+    }
+    .skill-card:hover .skill-pill {
+      border-color: rgba(23, 32, 42, 0.35);
+      background: rgba(23, 32, 42, 0.08);
+    }
+
+    .contact { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; }
+    .contact h2 { margin:0; font:800 clamp(36px,5.2vw,62px)/0.9 "Playfair Display",serif; letter-spacing:-.08em; } .contact h2 em { color:var(--red); }
+    
+    .contact-card { border-left:1px solid var(--line); padding-left:48px; }
+    .contact-card p { margin-top:0; line-height:1.6; color:#2c353d; }
+    .contact-card .caption { font-size:12px; letter-spacing:0.06em; color:var(--ink); opacity:0.85; }
+    
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      margin: 32px 0;
+      border-top: 1px solid rgba(23, 32, 42, 0.08);
+      border-bottom: 1px solid rgba(23, 32, 42, 0.08);
+      max-width: 380px;
+    }
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: "DM Sans", sans-serif;
+      font-weight: 500;
+      font-size: clamp(15px, 1.8vw, 17px);
+      color: var(--ink);
+      border-bottom: 1px solid rgba(23, 32, 42, 0.08);
+      width: 100%;
+      padding: 12px 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      text-decoration: none;
+    }
+    .contact-link:last-child {
+      border-bottom: none;
+    }
+    .contact-link:hover {
+      color: var(--red);
+      border-color: var(--red);
+      transform: translateX(6px);
+    }
+    .contact-icon {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      color: rgba(23, 32, 42, 0.60);
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+    .contact-link:hover .contact-icon {
+      transform: scale(1.15) rotate(-5deg);
+      color: var(--red);
+    }
+
+    /* AI Chat Assistant Floating Trigger (Minimalist Rectangular Tab) */
+    .ai-chat-bubble {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      padding: 12px 18px;
+      background: var(--paper);
+      color: var(--ink);
+      box-shadow: 0 8px 24px rgba(23,32,42,0.16);
+      border: 1px solid var(--ink);
+      border-radius: 0; /* Asymmetrical grid geometry */
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      z-index: 1000;
+      font: 700 11px "DM Mono", monospace;
+      letter-spacing: 0.1em;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .ai-chat-bubble:hover {
+      background: var(--red);
+      color: var(--paper);
+      border-color: var(--red);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 24px rgba(189,61,54,0.3);
+    }
+    .ai-chat-bubble-ping {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: var(--red);
+      border-radius: 50%;
+      animation: bubble-pulse 1.8s infinite ease-in-out;
+    }
+    @keyframes bubble-pulse {
+      0% { transform: scale(0.9); opacity: 0.8; }
+      50% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(0.9); opacity: 0.8; }
+    }
+
+    /* AI Chat Panel Container */
+    .ai-chat-panel {
+      position: fixed;
+      bottom: 100px;
+      right: 30px;
+      width: 380px;
+      height: 500px;
+      border-radius: 12px;
+      background: rgba(23, 32, 42, 0.98);
+      color: var(--paper);
+      border: 1px solid rgba(246, 241, 233, 0.15);
+      box-shadow: 0 12px 36px rgba(0,0,0,0.3);
+      backdrop-filter: blur(12px);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transform: translateY(20px) scale(0.95);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .ai-chat-panel.active {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    
+    /* Panel Header */
+    .ai-chat-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(246, 241, 233, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(0,0,0,0.15);
+    }
+    .ai-chat-header-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .ai-chat-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--red);
+      color: var(--paper);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font: 700 13px "DM Mono", monospace;
+    }
+    .ai-chat-title {
+      font-family: "DM Sans", sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 1.2;
+    }
+    .ai-chat-status {
+      font: 500 9px "DM Mono", monospace;
+      color: #7ab382;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .ai-chat-status::before {
+      content: "";
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      background: #7ab382;
+      border-radius: 50%;
+    }
+    .ai-chat-close {
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: var(--paper);
+      opacity: 0.6;
+      font-size: 20px;
+      line-height: 1;
+      padding: 4px;
+      transition: opacity 0.2s;
+    }
+    .ai-chat-close:hover {
+      opacity: 1;
+    }
+
+    /* Message Area */
+    .ai-chat-messages {
+      height: 320px;
+      padding: 20px 20px 32px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .ai-message {
+      max-width: 82%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-family: "DM Sans", sans-serif;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .ai-message.agent {
+      align-self: flex-start;
+      background: rgba(246, 241, 233, 0.06);
+      border: 1px solid rgba(246, 241, 233, 0.1);
+      border-top-left-radius: 2px;
+    }
+    .ai-message.user {
+      align-self: flex-end;
+      background: var(--red);
+      color: var(--paper);
+      border-top-right-radius: 2px;
+    }
+    .ai-message strong {
+      color: #fff;
+    }
+    .ai-message p {
+      margin: 0 0 8px 0;
+    }
+    .ai-message p:last-child {
+      margin: 0;
+    }
+    .ai-message a {
+      color: #db8178;
+      text-decoration: underline;
+    }
+    
+    /* Suggestions Area */
+    .ai-chat-suggestions {
+      padding: 0 20px 6px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .ai-chip {
+      background: rgba(246, 241, 233, 0.08);
+      border: 1px solid rgba(246, 241, 233, 0.15);
+      border-radius: 20px;
+      padding: 6px 12px;
+      font: 500 10px "DM Mono", monospace;
+      color: var(--paper);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .ai-chip:hover {
+      background: var(--red);
+      border-color: var(--red);
+    }
+
+    /* Input Bar */
+    .ai-chat-input-bar {
+      padding: 10px 20px;
+      border-top: 1px solid rgba(246, 241, 233, 0.1);
+      display: flex;
+      gap: 10px;
+      background: rgba(0,0,0,0.1);
+    }
+    .ai-chat-input-bar input {
+      flex: 1;
+      background: rgba(246, 241, 233, 0.05);
+      border: 1px solid rgba(246, 241, 233, 0.15);
+      border-radius: 6px;
+      padding: 10px 14px;
+      color: var(--paper);
+      font-family: "DM Sans", sans-serif;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .ai-chat-input-bar input:focus {
+      border-color: var(--red);
+    }
+    .ai-chat-send {
+      background: var(--red);
+      color: var(--paper);
+      border: none;
+      border-radius: 6px;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .ai-chat-send:hover {
+      background: #a8342f;
+    }
+
+    /* Typing Indicator Animation */
+    .typing-indicator {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      height: 12px;
+    }
+    .typing-dot {
+      width: 6px;
+      height: 6px;
+      background: rgba(246, 241, 233, 0.5);
+      border-radius: 50%;
+      animation: typing-wave 1.4s infinite ease-in-out;
+    }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typing-wave {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-4px); }
+    }
+
+    footer { padding:24px 30px; background:var(--paper-deep); border-top:1px solid var(--line); } .footer-inner { max-width:1140px; margin:auto; display:flex; justify-content:space-between; font:500 10px "DM Mono",monospace; color:#56616c; }
+    @media (max-width:720px) { 
+      .nav { padding:18px 20px; } 
+      .nav-links { display:none; } 
+      .container { padding:0 20px; } 
+      .hero { min-height:auto; padding:78px 0 45px; grid-template-columns:1fr; }       .field-notes { margin: 32px 0 16px; padding: 20px; } 
+      .section-head,.chronicle,.skills { grid-template-columns:1fr; } 
+      .section-head .caption { padding:0 0 15px; } 
+      .chronicle { gap:0px; }
+      .timeline-nav { display:none; }
+      .timeline-scroll-container { max-height:none; overflow-y:visible; padding-left:32px; padding-right:0; }
+      .timeline-track-main { left:10px; }
+      .timeline-card { padding:24px; margin-bottom:20px; }
+      .timeline-card-dot { left:-27px; }
+      .timeline-card:hover { transform:none; box-shadow:none; border-color:var(--line); }
+      section { padding:75px 0; } 
+      .projects { padding:72px 0; } 
+      .project-grid,.contact,.skills-grid { grid-template-columns:1fr; } 
+      .skills-grid { gap: 16px; }
+      .skill-card { padding: 20px; }
+      .project {
+        padding: 36px 0;
+        border-bottom: 1px solid rgba(246,241,233,.2);
+      }
+      .project h3 {
+        font-size: 28px;
+        margin-top: 8px;
+      }
+      .arrow {
+        right: 10px;
+        top: 36px;
+      }
+      .project:nth-child(odd) { border-right:0; } 
+      .contact { gap:36px; } 
+      .contact-card { border-left:none; border-top:1px solid var(--ink); padding-left:0; padding-top:24px; }
+      .contact-links { grid-template-columns:1fr; gap:16px; margin:24px 0; }
+      .footer-inner { gap:15px; flex-direction:column; }
+      .ai-chat-panel {
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        height: 100dvh; /* Enforce dynamic viewport height */
+        border-radius: 0;
+        border: none;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden !important;
+      }
+      .ai-chat-messages {
+        flex: 1;
+        height: auto;
+      }
+      .ai-chat-bubble {
+        bottom: 20px;
+        right: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="masthead"></div>
+  <nav class="nav"><a class="wordmark" href="#top">H<span>·</span>S</a><div class="nav-links"><a href="#story">Experience</a><a href="#work">Projects</a><a href="#contact">Contact</a></div><a class="caption" href="https://www.linkedin.com/in/hasir-sayed-365447413/" target="_blank" rel="noopener">Available for work ↗</a></nav>
+  <main id="top">
+    <div class="container">
+      <section class="hero">
+        <div><p class="eyebrow">Data science / applied AI / research</p><h1>Making machines <em>understand</em> people.</h1><p class="lede">Hasir Sayed is a data science student and AI/ML engineer building reliable language systems, safer AI workflows, and practical data products.</p><div class="hero-actions"><a class="button" href="#work">Explore projects <span>↓</span></a><a class="button-secondary" href="HASIR_SAYED.pdf" target="_blank">Resume ↗</a><a class="button-secondary" id="start-conversation-link" href="javascript:void(0)">Start a conversation</a></div></div>
+        <aside class="field-notes"><p class="caption">Profile / Field notes</p><h2>Work with evidence, ship with care.</h2><dl><div><dt>Focus</dt><dd>LLM safety, NLP, data pipelines, SLM fine-tuning</dd></div><div><dt>Based in</dt><dd>Bangalore, India</dd></div><div><dt>Education</dt><dd>BS in Data Science &amp; Applications, IIT Madras (Online program)</dd></div><div><dt>Academic Focus</dt><dd>B.Sc. in Mathematics (Honours), MDSU (Concurrent program) — expected 2027</dd></div><div><dt>Published</dt><dd><a href="https://zenodo.org/records/21396947" target="_blank" rel="noopener" style="text-decoration: underline; color: var(--red);">Lightweight LM Benchmarking (Zenodo) ↗</a></dd></div></dl></aside>
+      </section>
+      <section id="story">
+        <header class="section-head">
+          <p class="caption">01 / Experience</p>
+          <h2>Building safer, more useful AI systems.</h2>
+        </header>
+        <div class="chronicle">
+          <!-- Full-Width Timeline Cards Container -->
+          <div class="timeline-scroll-container">
+            <!-- Unified Vertical Track Line running down the left side of cards -->
+            <div class="timeline-track-main" aria-hidden="true">
+              <div class="timeline-progress-main"></div>
+            </div>
+
+            <!-- Role 1: Janitor AI -->
+            <article class="timeline-card">
+              <div class="timeline-card-dot" aria-hidden="true"></div>
+              <header class="card-meta">
+                <span>JANITOR AI · BANGALORE / REMOTE</span>
+                <span class="status-badge">2025 — PRESENT</span>
+              </header>
+              <h3 class="card-title">AI Safety &amp; Data Pipeline Engineer</h3>
+              <p class="card-desc">Built an autonomous data science tool deployed on Vercel, with decoupled data cleaning and preprocessing pipelines designed for high-throughput, maintainable workflows. Designed secure BYOK API-key handling; real-time PII detection and redaction; prompt-injection and jailbreak safeguards; and human-in-the-loop review for high-risk outputs.</p>
+              
+              <div class="card-details">
+                <div class="details-divider"></div>
+                <h4 class="details-section-title">Developing Collaborative Multi-Agent Systems</h4>
+                <ul class="details-list">
+                  <li class="details-item">Developed a collaborative three-agent workflow (Evaluation, Structural Validation, Task Execution) that automates complex data sanitization operations.</li>
+                </ul>
+                <h4 class="details-section-title">Implementing Real-Time PII &amp; Prompt-Injection Safeguards</h4>
+                <ul class="details-list">
+                  <li class="details-item">Built real-time prompt-injection filters, jailbreak shields, and customized PII masking routines to protect user-provided data.</li>
+                </ul>
+                <h4 class="details-section-title">Optimizing Model Performance with Adversarial Simulations</h4>
+                <ul class="details-list">
+                  <li class="details-item">Optimized structural output consistency and memory retention limits using multi-agent simulation loops.</li>
+                </ul>
+                
+                <h4 class="details-section-title">Technologies Leveraged</h4>
+                <div class="tech-tags">
+                  <span class="tech-tag">Python</span>
+                  <span class="tech-tag">Vercel</span>
+                  <span class="tech-tag">LangChain</span>
+                  <span class="tech-tag">Pydantic</span>
+                  <span class="tech-tag">Regex</span>
+                  <span class="tech-tag">Ollama</span>
+                </div>
+              </div>
+              
+              <div class="tags">
+                <span class="tag">AI safety</span>
+                <span class="tag">Data pipelines</span>
+                <span class="tag">Agent orchestration</span>
+              </div>
+            </article>
+
+            <!-- Role 2: Independent -->
+            <article class="timeline-card">
+              <div class="timeline-card-dot" aria-hidden="true"></div>
+              <header class="card-meta">
+                <span>INDEPENDENT · REMOTE</span>
+                <span>2024 — PRESENT</span>
+              </header>
+              <h3 class="card-title">AI &amp; Agentic Systems Developer</h3>
+              <p class="card-desc">Created and deployed an agentic portfolio platform to present technical work through a more capable, interactive experience. Integrated custom APIs and Model Context Protocol (MCP) capabilities to distribute tasks and support autonomous execution.</p>
+              
+              <div class="card-details">
+                <div class="details-divider"></div>
+                <h4 class="details-section-title">Optimizing Local LLM Performance &amp; Command Execution</h4>
+                <ul class="details-list">
+                  <li class="details-item">Designed custom servers implementing the Model Context Protocol (MCP) to let localized LLMs safely inspect directory contexts and execute local commands.</li>
+                </ul>
+                <h4 class="details-section-title">Orchestrating Autonomous Developer Workflows</h4>
+                <ul class="details-list">
+                  <li class="details-item">Programmed task-orchestration workers to split complicated multi-step requests into atomic stages, achieving fully autonomous task resolution.</li>
+                </ul>
+                <h4 class="details-section-title">Reducing API Overhead by 35% via Context Optimization</h4>
+                <ul class="details-list">
+                  <li class="details-item">Optimized context window packing and conversational history trees, reducing API costs by 35% while maintaining accuracy.</li>
+                </ul>
+                
+                <h4 class="details-section-title">Technologies Leveraged</h4>
+                <div class="tech-tags">
+                  <span class="tech-tag">Node.js</span>
+                  <span class="tech-tag">TypeScript</span>
+                  <span class="tech-tag">MCP SDK</span>
+                  <span class="tech-tag">Next.js</span>
+                  <span class="tech-tag">REST APIs</span>
+                </div>
+              </div>
+              
+              <div class="tags">
+                <span class="tag">MCP</span>
+                <span class="tag">API integration</span>
+                <span class="tag">Multi-agent systems</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </div>
+    <section class="projects" id="work"><div class="container"><div class="section-head"><p class="caption">02 / Selected work</p><h2>Data science and AI projects, in detail.</h2></div><div class="project-grid"><a class="project" href="https://github.com/Sayyedhash888/H-Ai"><span class="project-index">01 — MODEL DEVELOPMENT</span><span class="arrow">↗</span><h3>Personal SLM fine-tuning</h3><p>Fine-tuned Qwen 2.5 (0.5B) on a custom domain dataset using supervised fine-tuning. Built the full loop: collection, cleaning, deduplication, dataset structuring, hyperparameter tuning, baseline evaluation, and prompt/dataset iteration. The model was deployed locally with quantisation and inference optimisation for privacy-conscious use on consumer hardware.</p><div class="tags"><span class="tag">Qwen 2.5</span><span class="tag">SFT</span><span class="tag">Quantisation</span></div></a><a class="project" href="https://janitorai-beta.vercel.app"><span class="project-index">02 — DATA PRODUCT</span><span class="arrow">↗</span><h3>Autonomous data science tool</h3><p>A deployed data product that automates complex preprocessing work. The architecture separates evaluation, structural validation, and task execution across three collaborating agents, while keeping the pipeline maintainable and responsive for real-world data-cleaning flows.</p><div class="tags"><span class="tag">Python</span><span class="tag">Agents</span><span class="tag">Data cleaning</span></div></a><a class="project" href="https://syedsabiya.netlify.app"><span class="project-index">03 — CLIENT PRODUCT</span><span class="arrow">↗</span><h3>Operations &amp; MIS portfolio with AI assistant</h3><p>Designed and built an executive-style portfolio for a Business Operations and MIS leader. The site pairs a structured representation of experience, projects, and certifications with an AI assistant that can answer recruiter questions from portfolio knowledge.</p><div class="tags"><span class="tag">RAG concepts</span><span class="tag">UX</span><span class="tag">AI assistant</span></div></a><a class="project" href="https://zenodo.org/records/21396947"><span class="project-index">04 — RESEARCH / PUBLICATIONS</span><span class="arrow">↗</span><h3>Benchmarking SLM Performance &amp; Integration</h3><p>Published research paper (Zenodo DOI: 10.5281/zenodo.21396947) systematically comparing lightweight language models across capability, inference speed, resource usage, and edge deployment trade-offs. Developed a reproducible evaluation benchmark methodology.</p><div class="tags"><span class="tag">DOI: 10.5281/zenodo.21396947</span><span class="tag">Benchmarking</span><span class="tag">Data analysis</span></div></a></div></div></section>
+    <div class="container">
+      <section>
+        <header class="section-head">
+          <p class="caption">03 / Toolkit</p>
+          <h2>Grounded in data science, extended through applied AI.</h2>
+        </header>
+        <div class="skills-grid">
+          <article class="skill-card">
+            <h3>Analysis</h3>
+            <div class="skill-pills">
+              <span class="skill-pill">SQL</span>
+              <span class="skill-pill">NumPy</span>
+              <span class="skill-pill">Python</span>
+              <span class="skill-pill">Pandas</span>
+              <span class="skill-pill">Matplotlib</span>
+              <span class="skill-pill">Scikit-Learn</span>
+            </div>
+          </article>
+          <article class="skill-card">
+            <h3>Machine learning</h3>
+            <div class="skill-pills">
+              <span class="skill-pill">Deep learning</span>
+              <span class="skill-pill">Data pipelines</span>
+              <span class="skill-pill">Predictive modeling</span>
+              <span class="skill-pill">Statistical analysis</span>
+            </div>
+          </article>
+          <article class="skill-card">
+            <h3>Language AI</h3>
+            <div class="skill-pills">
+              <span class="skill-pill">RAG</span>
+              <span class="skill-pill">LLMs</span>
+              <span class="skill-pill">Ollama</span>
+              <span class="skill-pill">SLM fine-tuning</span>
+              <span class="skill-pill">Prompt engineering</span>
+            </div>
+          </article>
+          <article class="skill-card">
+            <h3>Responsible systems</h3>
+            <div class="skill-pills">
+              <span class="skill-pill">Guardrails</span>
+              <span class="skill-pill">HITL review</span>
+              <span class="skill-pill">PII redaction</span>
+              <span class="skill-pill">Injection defences</span>
+            </div>
+          </article>
+          <article class="skill-card">
+            <h3>Engineering</h3>
+            <div class="skill-pills">
+              <span class="skill-pill">Git</span>
+              <span class="skill-pill">MCP</span>
+              <span class="skill-pill">Web apps</span>
+              <span class="skill-pill">VS Code</span>
+              <span class="skill-pill">API integration</span>
+            </div>
+          </article>
+          <article class="skill-card">
+            <h3>Research</h3>
+            <div class="skill-pills">
+              <span class="skill-pill">AI benchmarking</span>
+              <span class="skill-pill">Technical writing</span>
+              <span class="skill-pill">Experiment tracking</span>
+            </div>
+          </article>
+        </div>
+      </section>
+      <section id="contact" class="contact">
+        <h2>Have a difficult problem?<br><em>Let’s talk.</em></h2>
+        <div class="contact-card">
+          <p>For collaborations, roles, or a thoughtful technical conversation, send a note. I read every message.</p>
+          <div class="contact-links">
+            <a class="contact-link" href="mailto:hasir160807@gmail.com">
+              <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              <span>hasir160807@gmail.com</span>
+            </a>
+            <a class="contact-link" href="tel:+918955270513">
+              <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+              <span>+91 8955270513</span>
+            </a>
+            <a class="contact-link" href="https://github.com/Sayyedhash888" target="_blank" rel="noopener">
+              <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+              <span>GitHub</span>
+            </a>
+            <a class="contact-link" href="https://www.linkedin.com/in/hasir-sayed-365447413/" target="_blank" rel="noopener">
+              <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+              <span>LinkedIn</span>
+            </a>
+            <a class="contact-link" href="HASIR_SAYED.pdf" target="_blank">
+              <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+              <span>Resume</span>
+            </a>
+          </div>
+          <p class="caption">Bangalore, India · English / Hindi</p>
+        </div>
+      </section>
+    </div>
+  </main>
+  <footer><div class="footer-inner"><span>© 2026 HASIR SAYED</span><span>CODED WITH PATIENCE, POWERED BY AI.</span></div></footer>
+
+  <!-- Interactive AI Chat Assistant -->
+  <button class="ai-chat-bubble" id="ai-chat-trigger" aria-label="Ask Hasir's AI Assistant">
+    <span class="ai-chat-bubble-ping"></span>
+    <span>✦ ASK AI AGENT</span>
+  </button>
+
+  <div class="ai-chat-panel" id="ai-chat-panel" aria-hidden="true">
+    <div class="ai-chat-header">
+      <div class="ai-chat-header-info">
+        <div class="ai-chat-avatar">AI</div>
+        <div>
+          <div class="ai-chat-title">Hasir's Agent</div>
+          <div class="ai-chat-status">Online</div>
+        </div>
+      </div>
+      <button class="ai-chat-close" id="ai-chat-close" aria-label="Close Assistant">&times;</button>
+    </div>
+    
+    <div class="ai-chat-messages" id="ai-chat-messages">
+      <div class="ai-message agent">
+        <p>Hi! I'm Hasir's AI assistant. Ask me anything about his experience, studies at IIT Madras, math research, or skills! Or select a prompt below:</p>
+      </div>
+    </div>
+    
+    <div class="ai-chat-suggestions">
+      <button class="ai-chip" data-query="experience">💼 Experience</button>
+      <button class="ai-chip" data-query="projects">🚀 Projects</button>
+      <button class="ai-chip" data-query="publications">🎓 Publications</button>
+      <button class="ai-chip" data-query="contact">✉️ Contact</button>
+      <button class="ai-chip" data-query="resume">📄 Resume</button>
+    </div>
+    
+    <form class="ai-chat-input-bar" id="ai-chat-form">
+      <input type="text" id="ai-chat-input" placeholder="Type a message..." autocomplete="off" />
+      <button type="submit" class="ai-chat-send" aria-label="Send Message">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      </button>
+    </form>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const container = document.querySelector('.timeline-scroll-container');
+      const cards = document.querySelectorAll('.timeline-card');
+      const dots = document.querySelectorAll('.timeline-card-dot');
+      const track = document.querySelector('.timeline-track-main');
+      const progressLine = document.querySelector('.timeline-progress-main');
+
+      // 1. Interactive Navigation (Scroll & Highlight Track on Page Level)
+      if (container && cards.length > 0 && dots.length > 0 && track && progressLine) {
+        const updateTimeline = () => {
+          const containerRect = container.getBoundingClientRect();
+          const firstDotRect = dots[0].getBoundingClientRect();
+          const lastDotRect = dots[dots.length - 1].getBoundingClientRect();
+
+          // Position the track line exactly from the center of the first dot to the center of the last dot
+          const trackTop = firstDotRect.top - containerRect.top + (firstDotRect.height / 2);
+          const trackBottom = lastDotRect.top - containerRect.top + (lastDotRect.height / 2);
+          const trackHeight = trackBottom - trackTop;
+
+          track.style.top = `${trackTop}px`;
+          track.style.height = `${trackHeight}px`;
+
+          // Page scroll calculation
+          const triggerPercent = 0.40;
+          const triggerY = window.innerHeight * triggerPercent;
+
+          let activeIndex = 0;
+          cards.forEach((card, idx) => {
+            const rect = card.getBoundingClientRect();
+            // A card is active if its top is above the threshold and its bottom is below it
+            if (rect.top <= triggerY && rect.bottom >= triggerY) {
+              activeIndex = idx;
+            }
+            // Fallback for scrolling past the end or the beginning
+            if (idx === 0 && rect.top > triggerY) {
+              activeIndex = 0;
+            } else if (idx === cards.length - 1 && rect.bottom < triggerY) {
+              activeIndex = cards.length - 1;
+            }
+          });
+
+          // Highlight active dot
+          dots.forEach((dot, idx) => {
+            if (idx === activeIndex) {
+              dot.classList.add('active');
+            } else {
+              dot.classList.remove('active');
+            }
+          });
+
+          // Fill progress line based on trigger scroll position
+          const firstCenterY = firstDotRect.top + (firstDotRect.height / 2) + window.scrollY;
+          const lastCenterY = lastDotRect.top + (lastDotRect.height / 2) + window.scrollY;
+          const currentY = window.scrollY + triggerY;
+
+          let percent = 0;
+          if (currentY <= firstCenterY) {
+            percent = 0;
+          } else if (currentY >= lastCenterY) {
+            percent = 100;
+          } else {
+            percent = ((currentY - firstCenterY) / (lastCenterY - firstCenterY)) * 100;
+          }
+          progressLine.style.height = `${percent}%`;
+        };
+
+        window.addEventListener('scroll', updateTimeline);
+        window.addEventListener('resize', updateTimeline);
+        
+        // Initial run with a slight timeout to let DOM settle and calculate dimensions accurately
+        setTimeout(updateTimeline, 100);
+      }
+
+      // 2. Interactive AI Chat Assistant panel toggle and conversation logic
+      const chatTrigger = document.getElementById('ai-chat-trigger');
+      const chatPanel = document.getElementById('ai-chat-panel');
+      const chatClose = document.getElementById('ai-chat-close');
+      const chatMessages = document.getElementById('ai-chat-messages');
+      const chatForm = document.getElementById('ai-chat-form');
+      const chatInput = document.getElementById('ai-chat-input');
+      const suggestionChips = document.querySelectorAll('.ai-chip');
+      const pingIndicator = document.querySelector('.ai-chat-bubble-ping');
+
+      if (chatTrigger && chatPanel && chatClose && chatMessages && chatForm && chatInput) {
+        // Toggle panel and body scroll locks
+        chatTrigger.addEventListener('click', () => {
+          const isActive = chatPanel.classList.toggle('active');
+          chatPanel.setAttribute('aria-hidden', !isActive);
+          if (pingIndicator) pingIndicator.style.display = 'none'; // Dismiss notification ping once clicked
+          
+          if (isActive) {
+            chatInput.focus();
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            document.body.style.overflow = 'hidden'; // Lock background scroll
+          } else {
+            document.body.style.overflow = '';
+          }
+        });
+
+        // Hero "Start a conversation" click trigger
+        const startConvLink = document.getElementById('start-conversation-link');
+        if (startConvLink) {
+          startConvLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            chatPanel.classList.add('active');
+            chatPanel.setAttribute('aria-hidden', 'false');
+            if (pingIndicator) pingIndicator.style.display = 'none';
+            chatInput.focus();
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            document.body.style.overflow = 'hidden'; // Lock background scroll
+          });
+        }
+
+        chatClose.addEventListener('click', () => {
+          chatPanel.classList.remove('active');
+          chatPanel.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = ''; // Unlock background scroll
+        });
+
+        // Conversation context tracking state
+        let lastIntent = null;
+
+        // Robust conversational lookup dictionary (arranged specific to general)
+        const responseDictionary = [
+          {
+            intent: 'location',
+            keys: [/\b(from|based|location|live|living|bangalore|rajasthan|where)\b/i],
+            response: `<p>Hasir is based in <strong>Bangalore, India</strong>, but he is originally from <strong>Rajasthan</strong> and collaborates with global/remote teams!</p>`
+          },
+          {
+            intent: 'identity',
+            keys: [/\b(who is he|who are you|who is hasir|who is hashir|tell me about yourself|your name|bio|profile|who is this|he|him|his)\b/i],
+            response: `<p>I am Hasir's custom-built portfolio assistant, running client-side to serve fast context about his research and engineering projects.</p>
+                       <p>Hasir himself is an Applied AI engineer focusing on LLM safety, custom data pipelines, and agentic workflows. He is also a Data Science student at <strong>IIT Madras</strong>.</p>`
+          },
+          {
+            intent: 'name',
+            keys: [/\b(hasir|hashir|haseer)\b/i],
+            response: `<p>Yep, that's me! (Spelled <strong>Hasir</strong>, but I answer to both Hasir and Hashir!). Spelled with an 'h' is super common, so no worries!</p>
+                       <p>I'm a Data Science student at IIT Madras and an Applied AI engineer focusing on LLM safety and agentic systems.</p>`
+          },
+          {
+            intent: 'education',
+            keys: [/\b(iit|iitm|madras|education|degree|studies|study|mathematics|math|mdsu)\b/i],
+            response: `<p>My academic foundation includes:</p>
+                       <p>- <strong>BS in Data Science &amp; Applications</strong> from <strong>IIT Madras</strong> (Online program).<br>
+                       - <strong>B.Sc. in Mathematics (Honours)</strong> from <strong>MDSU</strong> (expected 2027).</p>
+                       <p>This dual focus grounds my applied AI engineering in solid statistical methods and data science theory.</p>`
+          },
+          {
+            intent: 'resume',
+            keys: [/\b(resume|cv|biodata|pdf|document)\b/i],
+            response: `<p>You can view and download my official resume here: <a href="HASIR_SAYED.pdf" target="_blank" style="text-decoration: underline; color: var(--red);"><strong>HASIR_SAYED.pdf ↗</strong></a>.</p>
+                       <p>It contains a comprehensive overview of my AI Safety engineering at Janitor AI, Data Science BS at IIT Madras, and applied AI systems projects.</p>`
+          },
+          {
+            intent: 'experience',
+            keys: [/\b(experience|job|work|janitor|safety|guardrails|jailbreak|pipeline)\b/i],
+            response: `<p>I currently work as an <strong>AI Safety &amp; Data Pipeline Engineer at Janitor AI</strong>.</p>
+                       <p>My core work is designing autonomous three-agent sanitization pipelines, implementing real-time prompt-injection shields, and optimizing structural consistencies through multi-agent adversarial simulations.</p>`
+          },
+          {
+            intent: 'projects',
+            keys: [/\b(project|projects|code|portfolio|tool|autonomous)\b/i],
+            response: `<p>Here are some of my key engineering projects:</p>
+                       <p>1. <strong>Personal SLM Fine-Tuning:</strong> Fine-tuned Qwen 2.5 on custom domain datasets with local quantized inference.<br>
+                       2. <strong>Autonomous Data Science Tool:</strong> A multi-agent preprocessing pipeline deployed on Vercel.<br>
+                       3. <strong>Agentic MIS Portfolio:</strong> An executive portfolio featuring a custom RAG-based assistant.</p>
+                       <p>Which project would you like to explore in detail?</p>`
+          },
+          {
+            intent: 'publications',
+            keys: [/\b(publication|publications|research|paper|doi|zenodo|benchmark)\b/i],
+            response: `<p>I authored and published DOI-registered research on Zenodo: <a href="https://zenodo.org/records/21396947" target="_blank" rel="noopener"><strong>Benchmarking SLM Performance &amp; Integration (Zenodo Record 21396947)</strong></a>.</p>
+                       <p>The research systematically benchmarks lightweight local language models across capability, speed, memory, and edge deployment trade-offs to aid model-selection decisions.</p>`
+          },
+          {
+            intent: 'mcp',
+            keys: [/\b(mcp|agent|context|server|protocol|systems)\b/i],
+            response: `<p>I design custom servers using the <strong>Model Context Protocol (MCP)</strong>.</p>
+                       <p>This allows localized LLMs to safely inspect workspace directories, read file contexts, and execute developer commands, turning static models into active workspace agents.</p>`
+          },
+          {
+            intent: 'contact',
+            keys: [/\b(contact|email|phone|linkedin|github|reach|number|mail)\b/i],
+            response: `<p>You can reach me directly through these channels:</p>
+                       <p>- <strong>Email:</strong> <a href="mailto:hasir160807@gmail.com">hasir160807@gmail.com</a><br>
+                       - <strong>Phone:</strong> <a href="tel:+918955270513">+91 8955270513</a><br>
+                       - <strong>GitHub:</strong> <a href="https://github.com/Sayyedhash888" target="_blank">github.com/Sayyedhash888</a><br>
+                       - <strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/hasir-sayed-365447413/" target="_blank">linkedin.com/in/hasir-sayed</a></p>`
+          }
+        ];
+
+        // Dictionary-based response routing with sequential memory
+        const getAgentResponse = (message) => {
+          const msg = message.toLowerCase().trim();
+
+          // 1. Contextual memory checks for follow-up elaboration
+          const isRequestingMore = msg.includes('more') || msg.includes('detail') || msg.includes('elaborate') || msg.includes('tell me');
+          
+          if (isRequestingMore && lastIntent) {
+            if (lastIntent === 'experience') {
+              return `<p>At <strong>Janitor AI</strong>, my safety pipelines process millions of requests. I leverage LLM-in-the-loop evaluators to detect prompt injection risks and automatically format outputs, reducing safety escapes by 35%.</p>`;
+            }
+            if (lastIntent === 'projects') {
+              return `<p>For the <strong>SLM Fine-Tuning</strong> project, I utilized Qlora to fine-tune Qwen 2.5-0.5B on mathematical reasoning data, achieving comparable performance to larger models on domain-specific benchmarks.</p>`;
+            }
+            if (lastIntent === 'education') {
+              return `<p>The BS in Data Science from <strong>IIT Madras</strong> covers programming in Python/Java, database management, machine learning models, and big data tools. It is highly hands-on and rigorous.</p>`;
+            }
+            if (lastIntent === 'publications') {
+              return `<p>My paper benchmarks models like Llama 3.2 1B and Qwen 2.5 1.5B on edge tasks, analyzing memory scaling and throughput bottlenecks in resource-constrained web containers.</p>`;
+            }
+          }
+
+          // 2. Scan dictionary keys using word-bounded regex matching
+          for (const entry of responseDictionary) {
+            const matches = entry.keys.some(regex => regex.test(msg));
+            if (matches) {
+              lastIntent = entry.intent; // Update conversational context
+              return entry.response;
+            }
+          }
+
+          // Reframed fallback statement
+          return `<p>I am Hasir's custom-built portfolio assistant, designed to serve lightweight, lightning-fast context about his research and engineering projects directly in your browser without burning API costs.</p>
+                  <p>Feel free to select a quick-reply chip below or email Hasir directly at <a href="mailto:hasir160807@gmail.com">hasir160807@gmail.com</a>!</p>`;
+        };
+
+        // Render message helper with layout pass offset
+        const appendMessage = (sender, htmlContent) => {
+          const msgDiv = document.createElement('div');
+          msgDiv.className = `ai-message ${sender}`;
+          msgDiv.innerHTML = htmlContent;
+          chatMessages.appendChild(msgDiv);
+          
+          // Trigger smooth scroll after the browser completes layout calculations
+          setTimeout(() => {
+            chatMessages.scrollTo({
+              top: chatMessages.scrollHeight,
+              behavior: 'smooth'
+            });
+          }, 50);
+        };
+
+        // Render typing indicator helper
+        const showTypingIndicator = () => {
+          const indicator = document.createElement('div');
+          indicator.className = 'ai-message agent typing-indicator';
+          indicator.id = 'typing-indicator';
+          indicator.innerHTML = `
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          `;
+          chatMessages.appendChild(indicator);
+          
+          setTimeout(() => {
+            chatMessages.scrollTo({
+              top: chatMessages.scrollHeight,
+              behavior: 'smooth'
+            });
+          }, 50);
+        };
+
+        const removeTypingIndicator = () => {
+          const indicator = document.getElementById('typing-indicator');
+          if (indicator) indicator.remove();
+        };
+
+        // Handle sending
+        const handleSendMessage = (text) => {
+          if (!text.trim()) return;
+          
+          appendMessage('user', `<p>${text}</p>`);
+          chatInput.value = '';
+
+          // Show typing state
+          showTypingIndicator();
+
+          setTimeout(() => {
+            removeTypingIndicator();
+            const reply = getAgentResponse(text);
+            appendMessage('agent', reply);
+          }, 800); // 800ms natural delay
+        };
+
+        // Form submit
+        chatForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          handleSendMessage(chatInput.value);
+        });
+
+        // Suggestion click
+        suggestionChips.forEach(chip => {
+          chip.addEventListener('click', () => {
+            const query = chip.getAttribute('data-query');
+            handleSendMessage(query);
+          });
+        });
+        // Hide chat trigger bubble when scrolled to the contact section to prevent overlap
+        const contactSection = document.getElementById('contact');
+        if (contactSection && chatTrigger) {
+          const handleScroll = () => {
+            const rect = contactSection.getBoundingClientRect();
+            const isContactVisible = rect.top <= window.innerHeight && rect.bottom >= 0;
+            
+            // Only hide the bubble if the chat panel is NOT active
+            if (isContactVisible && !chatPanel.classList.contains('active')) {
+              chatTrigger.style.opacity = '0';
+              chatTrigger.style.pointerEvents = 'none';
+              chatTrigger.style.transform = 'scale(0.8)';
+            } else {
+              chatTrigger.style.opacity = '1';
+              chatTrigger.style.pointerEvents = 'auto';
+              chatTrigger.style.transform = 'none';
+            }
+          };
+          window.addEventListener('scroll', handleScroll);
+          window.addEventListener('resize', handleScroll);
+          handleScroll(); // Initial check
+        }
+      }
+    });
+  </script>
+</body>
+</html>
