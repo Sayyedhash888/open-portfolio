@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd cv-render && npm run build",
+  "buildCommand": "cd cv-render && npm install && npm run build",
   "outputDirectory": "cv-render/.next",
   "framework": "nextjs"
 }

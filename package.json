@@ -1,7 +1,31 @@
 {
+  "name": "open-portfolio",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "cd cv-render && next dev",
+    "build": "cd cv-render && next build",
+    "start": "cd cv-render && next start",
+    "lint": "cd cv-render && eslint"
+  },
   "dependencies": {
     "@astryxdesign/cli": "^0.1.8",
     "@astryxdesign/core": "^0.1.8",
-    "@astryxdesign/theme-neutral": "^0.1.8"
+    "@astryxdesign/theme-neutral": "^0.1.8",
+    "framer-motion": "^12.42.2",
+    "lucide-react": "^0.477.0",
+    "next": "16.2.11",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.11",
+    "tailwindcss": "^4",
+    "typescript": "^5"
   }
 }
