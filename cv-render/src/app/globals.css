@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  --font-serif: var(--font-playfair), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
+@layer base {
+  :root {
+    --background: #0c0d0e;
+    --foreground: #f1f5f9;
+    --card-bg: #16181c;
+    --border-color: rgba(255, 255, 255, 0.12);
+    --border-hover: rgba(255, 255, 255, 0.25);
+    --text-muted: #94a3b8;
+    --accent-red: #bd3d36;
+    --accent-green: #a3e635;
+    --accent-color: var(--accent-green);
+    --grid-color: rgba(255, 255, 255, 0.03);
+    --glass-bg: rgba(22, 24, 28, 0.6);
+    --glow-bg: rgba(56, 189, 248, 0.03);
+    --grid-line: rgba(255, 255, 255, 0.04);
+  }
+
+  .light {
+    --background: #F4F0EA;
+    --foreground: #111111;
+    --card-bg: #E8E3DC;
+    --border-color: #D1CDC6;
+    --border-hover: rgba(17, 17, 17, 0.25);
+    --text-muted: #56616c;
+    --accent-red: #bd3d36;
+    --accent-green: #22C55E;
+    --accent-color: var(--accent-red);
+    --grid-color: rgba(17, 17, 17, 0.02);
+    --glass-bg: rgba(232, 227, 220, 0.6);
+    --glow-bg: rgba(189, 61, 54, 0.02);
+    --grid-line: rgba(17, 17, 17, 0.04);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+
+  /* Unified transition class applied only on toggle */
+  .theme-transition,
+  .theme-transition * {
+    transition: background-color 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                color 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                fill 0.75s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  /* Custom View Transition Animations */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+}
+
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@theme inline {
+  --animate-marquee: marquee 28s linear infinite;
+}
