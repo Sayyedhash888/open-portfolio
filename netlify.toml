@@ -1,0 +1,5 @@
+[build]
+  base = "cv-render"
+  command = "npm run build"
+  publish = ".next"
+
