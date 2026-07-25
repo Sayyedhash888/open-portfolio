@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  --font-serif: var(--font-playfair), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-serif: var(--font-playfair), ui-serif, Georgia, Cambria, serif;
+  --font-mono: var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
 }
 
 @layer base {
@@ -70,6 +71,71 @@
   ::view-transition-new(root) {
     z-index: 9999;
   }
+
+  .cyberpunk {
+    --background: #030107;
+    --foreground: #00f0ff;
+    --card-bg: #090014;
+    --border-color: rgba(255, 0, 128, 0.35);
+    --text-muted: #ff0080;
+    --accent-color: #00f0ff;
+    --accent-color-end: #ff00c8;
+    --grid-color: rgba(0, 240, 255, 0.015);
+    --glass-bg: rgba(9, 0, 20, 0.7);
+    --grid-line: rgba(0, 240, 255, 0.035);
+  }
+
+  /* Headings and explicit grad-text: full neon gradient */
+  .cyberpunk h1,
+  .cyberpunk h2,
+  .cyberpunk h3,
+  .cyberpunk h4,
+  .cyberpunk h5,
+  .cyberpunk h6,
+  .cyberpunk .cyber-grad-text {
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-color-end)) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    color: transparent !important;
+    text-shadow: none !important;
+    filter: drop-shadow(0 0 5px rgba(0, 240, 255, 0.25));
+  }
+
+  /* Shifting gradient button backgrounds */
+  .cyberpunk .cyber-btn-accent {
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-color-end)) !important;
+    color: #000000 !important; /* high contrast black text on neon button */
+    border-color: transparent !important;
+    box-shadow: 0 0 18px var(--accent-color) !important;
+    transition: all 0.3s ease !important;
+  }
+
+  .cyberpunk .cyber-btn-accent * {
+    color: #000000 !important;
+    background: none !important;
+    -webkit-text-fill-color: initial !important;
+  }
+
+  .cyberpunk strong {
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-color-end)) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    color: transparent !important;
+    font-weight: bold;
+  }
+
+  /* Shifting background gradients */
+  .cyberpunk .cyber-grad-bg {
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-color-end)) !important;
+    border-color: transparent !important;
+    box-shadow: 0 0 15px var(--accent-color) !important;
+  }
+
+  ::view-transition {
+    pointer-events: none;
+  }
 }
 
 @keyframes marquee {
@@ -77,8 +143,57 @@
   100% { transform: translateX(-50%); }
 }
 
+@keyframes cyber-scan {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+
 @theme inline {
   --animate-marquee: marquee 28s linear infinite;
+  --animate-cyber-scan: cyber-scan 1s linear infinite;
+}
+
+/* ============================================================
+   CYBERPUNK MODE — unlayered block so it beats @layer utilities
+   ============================================================ */
+
+/* ── Universal neon: every element under .cyberpunk becomes cyan ── */
+.cyberpunk *:not(svg):not(path):not(circle):not(rect):not(line):not(polyline):not(polygon):not(g):not(defs):not(mask):not(use):not(button) {
+  color: var(--foreground) !important;
+  -webkit-text-fill-color: var(--foreground) !important;
+}
+
+/* ── Headings + .cyber-grad-text: gradient override ── */
+.cyberpunk h1,
+.cyberpunk h2,
+.cyberpunk h3,
+.cyberpunk h4,
+.cyberpunk h5,
+.cyberpunk h6,
+.cyberpunk .cyber-grad-text {
+  background: linear-gradient(135deg, var(--accent-color), var(--accent-color-end)) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  text-shadow: none !important;
+  filter: drop-shadow(0 0 5px rgba(0, 240, 255, 0.25));
+}
+
+/* ── CTA button: black text on neon bg for legibility ── */
+.cyberpunk .cyber-btn-accent,
+.cyberpunk .cyber-btn-accent * {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+}
+
+/* ── strong: gradient ── */
+.cyberpunk strong {
+  background: linear-gradient(135deg, var(--accent-color), var(--accent-color-end)) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
 }
 
 /* Hide Next.js dev indicator badge overlay */

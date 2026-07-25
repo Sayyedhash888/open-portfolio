@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Inter, Playfair_Display, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
@@ -15,8 +15,14 @@ const playfair = Playfair_Display({
   display: "swap",
 });
 
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "Hasir Sayed — AI/ML Safety & Data Pipeline Engineer",
+  title: "Hasir Sayed — AI/ML Safety and Data Pipeline Engineer",
   description:
     "Portfolio of Hasir Sayed, an AI/ML Engineer specializing in LLM safety, NLP, data pipelines, and agentic workflows.",
 };
@@ -29,7 +35,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${inter.variable} ${playfair.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <head>
         <script
           id="theme-initializer"

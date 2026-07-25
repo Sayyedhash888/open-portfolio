@@ -9,7 +9,6 @@ import {
   Phone,
   Github,
   Linkedin,
-  FileText,
   Copy,
   Check,
   MapPin,
@@ -71,10 +70,6 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 
             {/* Header Badge */}
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--border-color)] bg-[var(--card-bg)] text-[10px] font-bold font-mono tracking-widest text-[var(--foreground)] uppercase mb-4">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent-color)] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--accent-color)]"></span>
-              </span>
               AVAILABLE FOR WORK
             </div>
 
@@ -88,23 +83,27 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
             {/* Contact Details Cards */}
             <div className="flex flex-col gap-3 mb-6">
               {/* Email Item */}
-              <div className="flex items-center justify-between p-3.5 rounded-2xl border border-[var(--border-color)] bg-[var(--card-bg)] transition-colors">
+              <a
+                href="mailto:hasir160807@gmail.com"
+                className="flex items-center justify-between p-3.5 rounded-2xl border border-[var(--border-color)] bg-[var(--card-bg)] hover:border-[var(--accent-color)] transition-all cursor-pointer group"
+              >
                 <div className="flex items-center gap-3 overflow-hidden">
-                  <div className="p-2.5 rounded-xl bg-[var(--background)] border border-[var(--border-color)] text-[var(--accent-color)] shrink-0">
+                  <div className="p-2.5 rounded-xl bg-[var(--background)] border border-[var(--border-color)] text-[var(--accent-color)] group-hover:bg-[var(--accent-color)] group-hover:text-white transition-colors shrink-0">
                     <Mail size={16} />
                   </div>
                   <div className="min-w-0">
                     <div className="text-[10px] font-mono text-[var(--text-muted)] uppercase">Email</div>
-                    <a
-                      href="mailto:hasir160807@gmail.com"
-                      className="text-xs sm:text-sm font-mono text-[var(--foreground)] hover:text-[var(--accent-color)] transition-colors truncate block"
-                    >
+                    <div className="text-xs sm:text-sm font-mono font-medium text-[var(--foreground)] group-hover:text-[var(--accent-color)] transition-colors truncate">
                       hasir160807@gmail.com
-                    </a>
+                    </div>
                   </div>
                 </div>
                 <button
-                  onClick={() => copyToClipboard("hasir160807@gmail.com", "email")}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    copyToClipboard("hasir160807@gmail.com", "email");
+                  }}
                   className="p-2 rounded-xl text-[var(--text-muted)] hover:text-[var(--foreground)] hover:bg-[var(--background)] transition-all shrink-0 cursor-pointer"
                   title="Copy email"
                 >
@@ -114,26 +113,30 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                     <Copy size={14} />
                   )}
                 </button>
-              </div>
+              </a>
 
               {/* Phone Item */}
-              <div className="flex items-center justify-between p-3.5 rounded-2xl border border-[var(--border-color)] bg-[var(--card-bg)] transition-colors">
+              <a
+                href="tel:+918955270513"
+                className="flex items-center justify-between p-3.5 rounded-2xl border border-[var(--border-color)] bg-[var(--card-bg)] hover:border-[var(--accent-color)] transition-all cursor-pointer group"
+              >
                 <div className="flex items-center gap-3 overflow-hidden">
-                  <div className="p-2.5 rounded-xl bg-[var(--background)] border border-[var(--border-color)] text-[var(--accent-color)] shrink-0">
+                  <div className="p-2.5 rounded-xl bg-[var(--background)] border border-[var(--border-color)] text-[var(--accent-color)] group-hover:bg-[var(--accent-color)] group-hover:text-white transition-colors shrink-0">
                     <Phone size={16} />
                   </div>
                   <div className="min-w-0">
                     <div className="text-[10px] font-mono text-[var(--text-muted)] uppercase">Phone</div>
-                    <a
-                      href="tel:+918955270513"
-                      className="text-xs sm:text-sm font-mono text-[var(--foreground)] hover:text-[var(--accent-color)] transition-colors truncate block"
-                    >
+                    <div className="text-xs sm:text-sm font-mono font-medium text-[var(--foreground)] group-hover:text-[var(--accent-color)] transition-colors truncate">
                       +91 8955270513
-                    </a>
+                    </div>
                   </div>
                 </div>
                 <button
-                  onClick={() => copyToClipboard("+918955270513", "phone")}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    copyToClipboard("+918955270513", "phone");
+                  }}
                   className="p-2 rounded-xl text-[var(--text-muted)] hover:text-[var(--foreground)] hover:bg-[var(--background)] transition-all shrink-0 cursor-pointer"
                   title="Copy phone number"
                 >
@@ -143,7 +146,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                     <Copy size={14} />
                   )}
                 </button>
-              </div>
+              </a>
 
               {/* GitHub & LinkedIn Grid */}
               <div className="grid grid-cols-2 gap-3">
@@ -151,48 +154,42 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                   href="https://github.com/Sayyedhash888"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-between p-3 rounded-2xl border border-[var(--border-color)] bg-[var(--card-bg)] hover:border-[var(--accent-color)] transition-all group"
+                  className="flex items-center justify-between p-3.5 rounded-2xl border border-[var(--border-color)] bg-[var(--card-bg)] hover:border-[var(--accent-color)] transition-all cursor-pointer group"
                 >
-                  <div className="flex items-center gap-2 min-w-0">
-                    <Github size={15} className="text-[var(--text-muted)] group-hover:text-[var(--accent-color)] shrink-0" />
-                    <span className="text-xs font-mono text-[var(--foreground)] truncate">GitHub</span>
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="p-2 rounded-xl bg-[var(--background)] border border-[var(--border-color)] text-[var(--accent-color)] group-hover:bg-[var(--accent-color)] group-hover:text-white transition-colors shrink-0">
+                      <Github size={16} />
+                    </div>
+                    <div className="min-w-0">
+                      <div className="text-[10px] font-mono text-[var(--text-muted)] uppercase">Code</div>
+                      <div className="text-xs font-mono font-bold text-[var(--foreground)] group-hover:text-[var(--accent-color)] transition-colors truncate">
+                        GitHub
+                      </div>
+                    </div>
                   </div>
-                  <ExternalLink size={12} className="text-[var(--text-muted)] group-hover:text-[var(--accent-color)] shrink-0" />
+                  <ExternalLink size={14} className="text-[var(--text-muted)] group-hover:text-[var(--accent-color)] shrink-0 transition-colors" />
                 </a>
 
                 <a
                   href="https://www.linkedin.com/in/hasir-sayed-365447413/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-between p-3 rounded-2xl border border-[var(--border-color)] bg-[var(--card-bg)] hover:border-[var(--accent-color)] transition-all group"
+                  className="flex items-center justify-between p-3.5 rounded-2xl border border-[var(--border-color)] bg-[var(--card-bg)] hover:border-[var(--accent-color)] transition-all cursor-pointer group"
                 >
-                  <div className="flex items-center gap-2 min-w-0">
-                    <Linkedin size={15} className="text-[var(--text-muted)] group-hover:text-[var(--accent-color)] shrink-0" />
-                    <span className="text-xs font-mono text-[var(--foreground)] truncate">LinkedIn</span>
-                  </div>
-                  <ExternalLink size={12} className="text-[var(--text-muted)] group-hover:text-[var(--accent-color)] shrink-0" />
-                </a>
-              </div>
-
-              {/* Resume Download */}
-              <a
-                href="/HASIR_SAYED.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-between p-3.5 rounded-2xl border border-[var(--border-color)] bg-[var(--card-bg)] hover:border-[var(--accent-color)] transition-all group"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-xl bg-[var(--background)] border border-[var(--border-color)] text-[var(--text-muted)] group-hover:text-[var(--accent-color)] shrink-0">
-                    <FileText size={15} />
-                  </div>
-                  <div>
-                    <div className="text-[10px] font-mono text-[var(--text-muted)] uppercase">Curriculum Vitae</div>
-                    <div className="text-xs font-mono font-bold text-[var(--foreground)] group-hover:text-[var(--accent-color)]">
-                      HASIR_SAYED.pdf ↗
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="p-2 rounded-xl bg-[var(--background)] border border-[var(--border-color)] text-[var(--accent-color)] group-hover:bg-[var(--accent-color)] group-hover:text-white transition-colors shrink-0">
+                      <Linkedin size={16} />
+                    </div>
+                    <div className="min-w-0">
+                      <div className="text-[10px] font-mono text-[var(--text-muted)] uppercase">Network</div>
+                      <div className="text-xs font-mono font-bold text-[var(--foreground)] group-hover:text-[var(--accent-color)] transition-colors truncate">
+                        LinkedIn
+                      </div>
                     </div>
                   </div>
-                </div>
-              </a>
+                  <ExternalLink size={14} className="text-[var(--text-muted)] group-hover:text-[var(--accent-color)] shrink-0 transition-colors" />
+                </a>
+              </div>
             </div>
 
             {/* Footer Metadata */}

@@ -1,101 +1,100 @@
 # ⚡ MASTER EXECUTION & DEPLOYMENT GUIDE (`execution.md`)
 
 This document serves a dual purpose:
-1. **PART 1 (For AI Agents)**: Autonomous execution rules, visual guardrails, and quality verification protocols for AntiGravity, Cursor, Windsurf, or Codex.
-2. **PART 2 (For Humans / Users)**: A step-by-step terminal command reference and web deployment guide for non-technical users.
+1. **PART 1 (For AI Coding Agents like AntiGravity / Claude / Cursor / Windsurf)**: Autonomous setup protocols, prompt-parameterization rules, mandatory security guardrails, and build verification.
+2. **PART 2 (For Human Developers & Users)**: Idiot-proof API key configuration, cost safeguards, terminal reference, web deployment guide, licensing, and attribution.
 
 ---
 
-# 🤖 PART 1: AI AGENT EXECUTION PROTOCOL
+# 🤖 PART 1: AI AGENT EXECUTION PROTOCOL (For Coding Assistants)
 
-> **Instructions for AI Agent**: Follow these steps sequentially to generate, verify, and prepare the custom portfolio website.
+> ⚠️ **Instructions for AI Agent**: When customizing this template for a new user, you MUST follow these parameterization and security rules sequentially.
 
-## 1. Objective & Role
-Act as an expert Full-Stack Lead Engineer and UI/UX Designer. Read the user context provided in **Section 6 (Personal Context & User Data)** and update all portfolio components (`src/components/HeroSection.tsx`, `src/components/AIChatAgent.tsx`, `src/components/Navbar.tsx`, etc.) to match the user's background.
+## 1. Objective & Interactive Setup Protocol
+When a new user provides their context or asks you to adapt this template:
+1. **Prompt the User for Bio & Portfolio Data** if any fields in **Section 6 (User Data Input)** are missing.
+2. **DO NOT silently reuse placeholder content** (e.g., Hasir, IIT Madras, Janitor AI project, Zenodo DOIs) as default values for a new user.
+3. **Regenerate both System Prompts** (`src/app/api/chat/route.ts`) dynamically using the new user's exact background.
 
-## 2. Component Mapping & v.2 Visual Guardrails
-- **Browser Mockup Framing for Projects**: Wrap all project video demos or preview images inside a custom macOS-style browser window container (`bg-[#16181c] border border-black/10 dark:border-white/10 rounded-2xl overflow-hidden`) with three colored window dot controls (`#ef4444`, `#eab308`, `#22c55e`) and a mock URL bar (e.g., `project-demo.vercel.app`), rather than raw embedded media elements.
-- **Smooth Theme Crossfade**: Ensure `transition-colors duration-300` is applied across root layout, cards, and text elements to prevent jarring flashes when toggling between dark and light themes.
-- **Preloader Timing & Border Contrast**: The initial curtain loader ("INITIALIZING SYSTEM") must remain visible for a minimum of 800–1000ms before unmounting. Enforce distinct card borders (`border-white/10` in dark mode) so grid tiles do not melt into dark backgrounds.
-- **Hero & Branding**: Update name, headline, subtitle paragraph, and status badge (`AVAILABLE FOR WORK`).
-- **Profile / Field Notes**: Update education, location, current role, and engineering highlights.
-- **Featured Work & Projects**: Update project titles, metric chips (e.g., `3-agent architecture`, `35% cost savings`), descriptions, stack tags, and live/repo links.
-- **AI Architecture Diagram**: Verify `ArchitectureSection.tsx` SVG flow with animated fork and merge lines.
-- **Toolkit & Skills**: Update the 6 categorized skill blocks.
-- **Interactive AI Chat Agent (`AIChatAgent.tsx`)**: Update system prompt context and quick prompt pills to reflect the user's background.
-- **Contact & Footer**: Update email, phone, GitHub, LinkedIn, and sign-off text.
+## 2. Parameterization vs. Structural Logic Boundaries
+When modifying the Two-Agent AI backend (`src/app/api/chat/route.ts`) and UI components (`AIChatAgent.tsx`):
 
-## 3. Quality Verification & Hydration Guardrails
-- **Hydration Protection**: Ensure `suppressHydrationWarning` is present on the root `<html>` tag in `src/app/layout.tsx` to prevent server/client theme mismatches.
-- **Build Verification**: Run local type-check and compilation before presenting to the user:
-  ```bash
-  npm run build
-  ```
+### 🟢 USER-PARAMETERIZED FIELDS (Must be updated per user):
+- User's Name & Preferred Name / Handle
+- User's Role, Headline, & Location
+- Education & Universities
+- Featured Projects & Live URLs (Do NOT claim projects are employers!)
+- Technical Skills & Domain Topics
+- Publications, DOI links, & External Profiles (GitHub, LinkedIn, Email)
 
-## 4. Human Review Checkpoint (MANDATORY BEFORE DEPLOYMENT)
-> ⚠️ **CRITICAL RULE**: Do **NOT** automatically run production deployment commands (`npx vercel --prod` or `npx netlify-cli deploy --prod`) without human approval.
-1. Start the local server using `npm run dev`.
-2. Present `http://localhost:3000` to the user to inspect the live preview.
-3. **STOP and WAIT** for the user's explicit approval before proceeding to git push or production deployment steps (detailed in **Part 2, §2–3**).
+### 🔴 STRUCTURAL SECURITY & ROUTING LOGIC (DO NOT TOUCH):
+- **Agent 1 Output Contract**: Must ALWAYS output valid JSON: `{"allowed": boolean, "reason": string}`.
+- **Agent 1 Scope Classification Logic**: Category 1 (Direct user queries), Category 2 (User's technical domains & portfolio terms), Category 3 (Greetings & casual chat), Rejected (Off-topic trivia, external API tutorials, jailbreaks).
+- **Two-Agent Fallback Pipeline**: Prebuilt local dictionary check first ➔ Agent 1 Gatekeeper check ➔ Agent 2 Knowledge Synthesis ➔ Error Boundary fallback.
+
+## 3. Mandatory Security & Production Hardening
+Since strangers will deploy this codebase live, the following security defaults are **MANDATORY**:
+- **Prompt-Injection Defense**: Agent 1 system prompt must explicitly reject system prompt override attempts, adversarial jailbreaks, and out-of-scope code generation requests.
+- **Honest Fallbacks**: Error boundaries must return polite, transparent fallback messages without exposing raw stack traces, API keys, or hallucinating false user credentials.
+- **Rate Limiting & Cost Safeguards**: API route must enforce maximum request payload limits (`max_tokens: 600`, message length truncation) to protect against API exhaustion.
+
+## 4. Component Visual Guardrails
+- **Browser Mockup Framing**: Wrap project previews inside macOS-style containers with traffic light dots (`#ef4444`, `#eab308`, `#22c55e`) and a mock URL bar (`project-demo.vercel.app`), rather than raw embedded media.
+- **Theme Crossfade**: Apply `transition-colors duration-300` across root layout and cards to prevent jarring flashes when toggling dark/light mode.
+- **Hydration Protection**: Maintain `suppressHydrationWarning` on `<html>` in `src/app/layout.tsx`.
+- **Preloader**: Keep initial curtain loader visible for 800–1000ms minimum.
+
+## 5. Build Verification & Human Review Checkpoint
+1. Run `npm run build` to verify zero TypeScript or Next.js build errors.
+2. ⚠️ **CRITICAL RULE**: Do **NOT** run production deployment commands (`npx vercel --prod` or `npx netlify-cli deploy --prod`) without human approval.
+3. Present `http://localhost:3000` to the user and wait for explicit approval before git push or deployment.
 
 ---
 
-## 5. Personal Context & User Data (Input Section)
+## 6. Personal Context & User Data (Input Section for AI Agent)
 
-> **Instructions for User**: Replace the template below with your resume text, LinkedIn profile, or project highlights before running this prompt in your AI agent.
+> **Instructions for User**: Paste your background details below before handing this file to your AI agent.
 
 ```text
-- Full Name: Jane Doe
-- Target Role / Title: Senior AI / ML Engineer & Systems Architect
-- Value Proposition / Headline: Building intelligent language systems & agentic workflows.
-- Location & Languages: San Francisco, CA · English / Hindi
-- Education: BS in Data Science & Computer Science
-
-- Key Skills Matrix:
-  - Analysis: Python, NumPy, Pandas, SQL, Data Visualization
-  - Machine Learning: Deep Learning, Predictive Modeling, Data Pipelines
-  - Language AI: LLMs, RAG, Ollama, SLM Fine-Tuning, Prompt Engineering
-  - Responsible Systems: Guardrails, PII Redaction, Human-in-the-Loop, Injection Defenses
-  - Engineering: Git, VS Code, Next.js, TypeScript, Vercel, API Integration, MCP
-  - Research: AI Benchmarking, Technical Writing, Experiment Tracking
-
-- Work Experience:
-  1. Autonomous AI Labs (2025 — Present) | Lead AI Safety Engineer
-     - Built autonomous data science tool deployed on cloud infrastructure.
-     - Designed BYOK API-key handling, real-time PII redaction, prompt injection shields.
-     - Collaborative 3-agent workflow (Evaluation, Validation, Task Execution).
-
-  2. Personal Systems Platform (2024 — Present) | AI & Agentic Systems Developer
-     - Agentic portfolio platform with Model Context Protocol (MCP) integrations.
-     - 3-agent workflow for autonomous execution and 35% API cost reduction.
-
-- Featured Projects:
-  - SLM Fine-Tuning (H-Ai): Quantized language model fine-tuning and edge deployment.
-  - Business MIS Platform: RAG AI assistant integration.
-  - Interactive Portfolio Platform: Modern responsive technical showcase.
-
-- Publications & DOIs:
-  - Small Language Model (SLM) Integration and Performance Analysis (Zenodo DOI: 10.5281/zenodo.00000000)
-
-- Contact Details:
-  - Email: your.email@example.com
-  - Phone: +1 (555) 000-0000
-  - GitHub: https://github.com/your-username
-  - LinkedIn: https://linkedin.com/in/your-username
+- Full Name: [Your Full Name]
+- Target Role / Title: [e.g., AI Engineer / Full-Stack Developer]
+- Value Proposition / Headline: [Your headline sentence]
+- Location & Languages: [e.g., San Francisco, CA · English]
+- Education: [Your Degree, University, Graduation Year]
+- Key Skills: [Languages, ML/AI Tools, Web Frameworks, Libraries]
+- Featured Projects: [Title, Description, Live URL, Tech Stack] (Note: List projects as projects, not employers!)
+- Publications / DOIs: [Paper title, DOI link, venue, if applicable]
+- Contact Info: [Email, Phone, GitHub URL, LinkedIn URL]
 ```
 
 ---
 
-# 👤 PART 2: USER STEP-BY-STEP GUIDE & TERMINAL REFERENCE
+# 👤 PART 2: USER SETUP, ENVIRONMENT & DEPLOYMENT GUIDE
 
-> **For Non-Technical Users**: Follow this simple guide to test locally, push to GitHub, and deploy your custom portfolio to the web for free.
+## 🔑 1. Idiot-Proof API Key Setup & Cost Security
 
-## 📥 1. Local Setup & Testing
+> 🚨 **SECURITY & COST WARNING**:
+> - **NEVER** expose your API key in client-side code or commit it to GitHub.
+> - OpenRouter keys belong exclusively in server-side environment variables (`.env.local`).
+> - Set a **Monthly Spend Limit** or **Credit Limit** on your [OpenRouter Dashboard](https://openrouter.ai/settings/keys) to prevent unexpected charges.
 
-Open your terminal in the project directory and run:
+### Setup Instructions:
+1. In the `cv-render` folder, copy `.env.example` to create a new file named `.env.local`:
+   ```bash
+   cp .env.example .env.local
+   ```
+2. Open `.env.local` and paste your OpenRouter key:
+   ```env
+   OPENROUTER_API_KEY=sk-or-v1-your-actual-api-key-here
+   ```
+3. Ensure `.env.local` is listed in your `.gitignore` file (configured by default).
+
+---
+
+## 📥 2. Local Setup & Testing
 
 ```bash
-# Step 1: Install project dependencies
+# Step 1: Install dependencies
 npm install
 
 # Step 2: Launch local dev server
@@ -105,78 +104,27 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to view your
 
 ---
 
-## 🐙 2. Push to GitHub (Step-by-Step)
+## 🐙 3. Push to GitHub & Web Deployment
 
-If you haven't pushed your code to GitHub yet, run these commands in order:
-
+### 🅰️ Step 1: Push to GitHub
 ```bash
-# Step 1: Initialize Git
 git init
-
-# Step 2: Add all files
 git add .
-
-# Step 3: Commit changes
 git commit -m "Initial portfolio release"
-
-# Step 4: Set branch name to main
 git branch -M main
-
-# Step 5: Link remote repository (Replace YOUR_GITHUB_USERNAME and YOUR_REPO_NAME)
-git remote add origin https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME.git
-
-# Step 6: Push repository to GitHub
+git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
 git push -u origin main
 ```
 
----
-
-## 🚀 3. Web Deployment Guides
-
-### 🅰️ Option 1: Deploy to Vercel (Recommended — 1-Click)
-
-**GUI Method (Easiest)**:
-1. Push your repository to **GitHub**.
-2. Visit **[Vercel.com](https://vercel.com)** and sign in with GitHub.
-3. Click **"Add New"** → **"Project"**.
-4. Import your **`open-portfolio`** repository.
-5. Click **Deploy**. Vercel will build and assign a free domain (e.g., `https://yourname.vercel.app`).
-
-**CLI Method (Terminal)**:
-```bash
-npx vercel --prod
-```
+### 🅱️ Step 2: Deploy to Vercel (Recommended — 1-Click)
+1. Import your GitHub repository on **[Vercel.com](https://vercel.com)**.
+2. In Vercel Project Settings, navigate to **Environment Variables**.
+3. Add key `OPENROUTER_API_KEY` with your secret key value.
+4. Click **Deploy**. Vercel will build and assign a free production domain.
 
 ---
 
-### 🅱️ Option 2: Deploy to Netlify
+## 📄 4. License & Attribution
 
-**GUI Method**:
-1. Push your repository to **GitHub**.
-2. Visit **[Netlify.com](https://netlify.com)** and sign in.
-3. Click **"Add new site"** → **"Import an existing project"**.
-4. Select **GitHub** and choose your repository.
-5. Set Build Command: `npm run build` and Publish Directory: `.next`
-6. Click **Deploy Site**.
-
-**CLI Method (Terminal)**:
-```bash
-# Step 1: Build production bundle
-npm run build
-
-# Step 2: Deploy to Netlify production
-npx netlify-cli deploy --prod
-```
-
----
-
-## 🛠️ Summary of Key Terminal Commands
-
-| Task | Command |
-| :--- | :--- |
-| **Start Dev Server** | `npm run dev` |
-| **Build Project** | `npm run build` |
-| **Stage & Commit** | `git add . && git commit -m "update portfolio"` |
-| **Push to GitHub** | `git push origin main` |
-| **Deploy to Vercel** | `npx vercel --prod` |
-| **Deploy to Netlify** | `npx netlify-cli deploy --prod` |
+- **License**: Distributed under the **MIT License**. See `LICENSE` for full terms.
+- **Attribution**: Free for personal and commercial use. Attribution back to the original author (**Hasir Sayed** · [`github.com/Sayyedhash888/open-portfolio`](https://github.com/Sayyedhash888/open-portfolio)) in your repository README or footer is greatly appreciated!

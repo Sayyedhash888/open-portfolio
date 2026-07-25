@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Github, Linkedin, ArrowUpRight, Sun, Moon } from "lucide-react";
 
 import ContactModal from "./ContactModal";
@@ -8,6 +8,9 @@ import ContactModal from "./ContactModal";
 export default function Navbar() {
   const [isLight, setIsLight] = useState(true);
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [isCyberpunk, setIsCyberpunk] = useState(false);
+  const clickTimes = useRef<number[]>([]);
+  const lastClickTimeRef = useRef(0);
 
   useEffect(() => {
     // Check localStorage or default to Light mode for new users
@@ -19,9 +22,75 @@ export default function Navbar() {
       setIsLight(true);
       document.documentElement.classList.add("light");
     }
+
+    const savedCyber = localStorage.getItem("cyberpunk");
+    if (savedCyber === "true") {
+      setIsCyberpunk(true);
+    }
   }, []);
 
+  useEffect(() => {
+    if (!isCyberpunk) return;
+
+    document.documentElement.classList.add("cyberpunk");
+    localStorage.setItem("cyberpunk", "true");
+
+    let h = 0;
+    let animId: number;
+
+    const tick = () => {
+      h = (h + 1.2) % 360;
+      
+      const colorA = `hsl(${h}, 100%, 50%)`;
+      const colorB = `hsl(${(h + 60) % 360}, 100%, 50%)`;
+      const glowColor = `hsla(${h}, 100%, 50%, 0.15)`;
+      const borderHover = `hsl(${(h + 120) % 360}, 100%, 50%)`;
+      
+      document.documentElement.style.setProperty("--accent-color", colorA);
+      document.documentElement.style.setProperty("--accent-color-end", colorB);
+      document.documentElement.style.setProperty("--glow-bg", glowColor);
+      document.documentElement.style.setProperty("--border-hover", borderHover);
+      document.documentElement.style.setProperty("--border-color", `hsla(${h}, 100%, 50%, 0.3)`);
+      
+      animId = requestAnimationFrame(tick);
+    };
+
+    tick();
+
+    return () => {
+      cancelAnimationFrame(animId);
+      document.documentElement.style.removeProperty("--accent-color");
+      document.documentElement.style.removeProperty("--accent-color-end");
+      document.documentElement.style.removeProperty("--glow-bg");
+      document.documentElement.style.removeProperty("--border-hover");
+      document.documentElement.style.removeProperty("--border-color");
+      document.documentElement.classList.remove("cyberpunk");
+    };
+  }, [isCyberpunk]);
+
   const toggleTheme = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const now = Date.now();
+    const timeSinceLastClick = now - lastClickTimeRef.current;
+    lastClickTimeRef.current = now;
+
+    if (isCyberpunk) {
+      // Exit condition: 2 clicks under 2.5 seconds
+      clickTimes.current = [...clickTimes.current.filter((t) => now - t < 2500), now];
+      if (clickTimes.current.length >= 2) {
+        setIsCyberpunk(false);
+        localStorage.removeItem("cyberpunk");
+        clickTimes.current = [];
+      }
+    } else {
+      // Enter condition: 6 clicks under 10 seconds
+      clickTimes.current = [...clickTimes.current.filter((t) => now - t < 10000), now];
+      if (clickTimes.current.length >= 6) {
+        setIsCyberpunk(true);
+        localStorage.setItem("cyberpunk", "true");
+        clickTimes.current = [];
+      }
+    }
+
     const updateDOM = () => {
       if (isLight) {
         document.documentElement.classList.remove("light");
@@ -33,6 +102,13 @@ export default function Navbar() {
         setIsLight(true);
       }
     };
+
+    // If clicking rapidly (less than 550ms since last click), skip the view transition
+    // and update DOM immediately to prevent animation stacking/blocking.
+    if (timeSinceLastClick < 550) {
+      updateDOM();
+      return;
+    }
 
     const doc = document as any;
     if (!doc.startViewTransition) {
@@ -68,14 +144,14 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="w-full flex items-center justify-between px-6 py-4 bg-[var(--glass-bg)] backdrop-blur-md border border-[var(--border-color)] rounded-full shadow-lg transition-colors duration-300">
+    <nav className="w-full flex items-center justify-between px-6 md:px-10 py-3.5 bg-[var(--background)]/85 backdrop-blur-md border-b border-[var(--border-color)] transition-colors duration-300">
       {/* Left side: Logo & Navigation */}
       <div className="flex items-center gap-8">
         <a
           href="#"
-          className="text-base font-bold tracking-wider text-[var(--foreground)] hover:opacity-80 transition-opacity font-mono"
+          className="flex items-center gap-2.5 hover:opacity-80 transition-opacity"
         >
-          H·S
+          <span className="text-sm font-bold tracking-wider text-[var(--foreground)] cyber-grad-text">H·S</span>
         </a>
         <div className="hidden md:flex items-center gap-6 text-sm font-medium text-[var(--text-muted)]">
           <a href="#experience-section" className="hover:text-[var(--foreground)] transition-colors">
@@ -131,12 +207,8 @@ export default function Navbar() {
 
         <button
           onClick={() => setIsContactOpen(true)}
-          className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border border-[var(--border-color)] bg-[var(--card-bg)] text-[10px] sm:text-[11px] font-bold tracking-widest text-[var(--foreground)] uppercase hover:bg-[var(--border-color)] hover:border-[var(--border-hover)] transition-all font-mono shadow-inner cursor-pointer"
+          className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-md border border-[var(--border-color)] bg-[var(--card-bg)]/60 text-[10px] sm:text-[11px] font-bold tracking-widest text-[var(--foreground)] uppercase hover:border-[var(--accent-color)] hover:bg-[var(--card-bg)] transition-all font-mono shadow-sm cursor-pointer cyber-btn-accent"
         >
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent-color)] opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--accent-color)]"></span>
-          </span>
           <span>AVAILABLE FOR WORK</span>
           <ArrowUpRight size={12} className="text-[var(--text-muted)] shrink-0" />
         </button>

@@ -29,6 +29,61 @@ import AIChatAgent from "./AIChatAgent";
 import NeuralBackground from "./NeuralBackground";
 import ArchitectureSection from "@/components/ArchitectureSection";
 
+interface CyberLazyLoadProps {
+  children: React.ReactNode;
+}
+
+function CyberLazyLoad({ children }: CyberLazyLoadProps) {
+  const [loaded, setLoaded] = useState(false);
+  const [isCyber, setIsCyber] = useState(false);
+
+  useEffect(() => {
+    const checkCyber = () => {
+      setIsCyber(document.documentElement.classList.contains("cyberpunk"));
+    };
+    checkCyber();
+    
+    const observer = new MutationObserver(checkCyber);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    return () => observer.disconnect();
+  }, []);
+
+  if (!isCyber) {
+    return <>{children}</>;
+  }
+
+  return (
+    <motion.div
+      onViewportEnter={() => {
+        if (!loaded) {
+          setTimeout(() => setLoaded(true), 600);
+        }
+      }}
+      className="relative"
+    >
+      {!loaded ? (
+        <div className="w-full py-16 flex flex-col items-center justify-center font-mono text-xs text-[var(--accent-color)] gap-2 select-none">
+          <div className="animate-pulse tracking-widest">
+            &gt;&gt; LOADING MODULE... [PORT_80]
+          </div>
+          <div className="w-48 h-[2px] bg-[var(--border-color)] overflow-hidden relative rounded-full">
+            <div className="absolute top-0 left-0 h-full w-1/3 animate-[cyber-scan_1s_linear_infinite]" style={{ background: "linear-gradient(90deg, transparent, var(--accent-color), var(--accent-color-end), transparent)" }} />
+          </div>
+          <div className="text-[9px] tracking-[0.2em] opacity-50 mt-1">CYBERPUNK RENDERER v2.0</div>
+        </div>
+      ) : (
+        <motion.div
+          initial={{ opacity: 0, y: 15, filter: "blur(4px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          transition={{ duration: 0.45, ease: "easeOut" }}
+        >
+          {children}
+        </motion.div>
+      )}
+    </motion.div>
+  );
+}
+
 export default function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isHeroHidden, setIsHeroHidden] = useState(false);
@@ -143,7 +198,7 @@ export default function HeroSection() {
                 onAnimationComplete={() => {
                   setShowLoader(false);
                 }}
-                className="absolute top-0 left-0 h-full bg-[var(--accent-color)]"
+                className="absolute top-0 left-0 h-full bg-[var(--accent-color)] cyber-grad-bg"
               />
             </div>
 
@@ -162,7 +217,7 @@ export default function HeroSection() {
 
       {/* FIXED NAVBAR HEADER */}
       {/* Stays fixed at the top of the viewport */}
-      <header className="fixed top-0 inset-x-0 p-4 md:p-6 z-40">
+      <header className="fixed top-0 inset-x-0 z-40">
         <Navbar />
       </header>
 
@@ -195,7 +250,7 @@ export default function HeroSection() {
                   <span className="text-[10px] font-mono tracking-widest text-[var(--accent-color)] uppercase">
                     Profile / Field Notes
                   </span>
-                  <Sparkles size={12} className="text-[var(--accent-color)] animate-pulse" />
+                  <Sparkles size={12} className="text-[var(--accent-color)]" />
                 </div>
                 <div>
                   <h3 className="text-base font-bold text-[var(--foreground)] font-serif leading-tight">
@@ -216,7 +271,7 @@ export default function HeroSection() {
                   <div className="flex items-start gap-2 border-t border-[var(--border-color)] pt-2">
                     <GraduationCap size={14} className="mt-0.5 text-[var(--text-muted)] shrink-0" />
                     <span>
-                      <strong className="text-[var(--foreground)]">Education:</strong> BS in Data Science & Applications, IIT Madras (Online program)
+                      <strong className="text-[var(--foreground)]">Education:</strong> BS in Data Science and Applications, IIT Madras (Online program)
                     </span>
                   </div>
                   <div className="flex items-start gap-2">
@@ -253,13 +308,13 @@ export default function HeroSection() {
                 </div>
                 <div>
                   <h3 className="text-base font-bold text-[var(--foreground)] font-serif leading-tight">
-                    AI Safety & Data Pipeline Engineer
+                    AI Safety and Data Pipeline Engineer
                   </h3>
                 </div>
                 <ul className="space-y-2 text-xs text-[var(--text-muted)] font-mono">
                   <li className="flex items-start gap-2">
                     <Lock size={12} className="mt-0.5 text-[var(--text-muted)] shrink-0" />
-                    <span>Real-time PII detection & prompt injection safeguards</span>
+                    <span>Real-time PII detection and prompt injection safeguards</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <Layers size={12} className="mt-0.5 text-[var(--text-muted)] shrink-0" />
@@ -289,7 +344,6 @@ export default function HeroSection() {
           >
             {/* Top Pill Badge */}
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-[var(--border-color)] bg-[var(--card-bg)] text-[9px] sm:text-[10px] font-bold tracking-widest text-[var(--text-muted)] uppercase mb-5 sm:mb-6 font-mono transition-colors duration-300 max-w-full overflow-hidden text-ellipsis whitespace-nowrap">
-              <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent-color)] animate-pulse shrink-0"></span>
               <span className="truncate">DATA SCIENCE / APPLIED AI / RESEARCH</span>
             </div>
 
@@ -300,7 +354,7 @@ export default function HeroSection() {
             </h1>
 
             {/* Subtitle */}
-            <p className="text-[var(--text-muted)] text-xs sm:text-sm md:text-base w-full max-w-sm sm:max-w-lg mx-auto leading-relaxed mb-6 sm:mb-8 transition-colors duration-300 px-3 sm:px-0">
+            <p className="text-[var(--text-muted)] text-xs sm:text-sm md:text-base w-full max-w-sm sm:max-w-lg mx-auto leading-relaxed mb-6 sm:mb-8 transition-colors duration-300 px-3 sm:px-0 cyber-grad-text">
               Hasir Sayed is a data science student and AI/ML engineer building
               reliable language systems, safer AI workflows, and practical data
               products.
@@ -316,7 +370,7 @@ export default function HeroSection() {
                     .getElementById("experience-section")
                     ?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="w-full sm:w-auto px-6 py-3.5 sm:py-3 rounded-full bg-[var(--foreground)] text-[var(--background)] text-xs font-bold tracking-wider uppercase hover:shadow-[0_0_24px_var(--accent-color)] hover:opacity-90 transition-all duration-300 shadow-lg text-center"
+                className="w-full sm:w-auto px-6 py-3.5 sm:py-3 rounded-full bg-[var(--foreground)] text-[var(--background)] text-xs font-bold tracking-wider uppercase hover:shadow-[0_0_24px_var(--accent-color)] hover:opacity-90 transition-all duration-300 shadow-lg text-center cyber-btn-accent"
               >
                 EXPLORE PROJECTS ↓
               </a>
@@ -343,7 +397,7 @@ export default function HeroSection() {
                     { icon: <GraduationCap size={10} />, label: "IIT Madras · BS Data Science" },
                     { icon: <Briefcase size={10} />, label: "Janitor AI · AI Safety Engineer" },
                     { icon: <Lock size={10} />, label: "Real-time PII Detection" },
-                    { icon: <Bot size={10} />, label: "LLM Safety & NLP" },
+                    { icon: <Bot size={10} />, label: "LLM Safety and NLP" },
                     { icon: <Layers size={10} />, label: "3-Agent Workflow" },
                     { icon: <Database size={10} />, label: "SLM Fine-tuning" },
                     { icon: <FileText size={10} />, label: "Published · Zenodo 21396947" },
@@ -354,7 +408,7 @@ export default function HeroSection() {
                     { icon: <GraduationCap size={10} />, label: "IIT Madras · BS Data Science" },
                     { icon: <Briefcase size={10} />, label: "Janitor AI · AI Safety Engineer" },
                     { icon: <Lock size={10} />, label: "Real-time PII Detection" },
-                    { icon: <Bot size={10} />, label: "LLM Safety & NLP" },
+                    { icon: <Bot size={10} />, label: "LLM Safety and NLP" },
                     { icon: <Layers size={10} />, label: "3-Agent Workflow" },
                     { icon: <Database size={10} />, label: "SLM Fine-tuning" },
                     { icon: <FileText size={10} />, label: "Published · Zenodo 21396947" },
@@ -385,7 +439,8 @@ export default function HeroSection() {
         <div className="max-w-4xl mx-auto py-12 flex flex-col gap-12 bg-transparent pb-20">
           
           {/* Section 01: Featured Work */}
-          <div className="flex flex-col gap-8">
+          <CyberLazyLoad>
+            <div className="flex flex-col gap-8">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -393,8 +448,8 @@ export default function HeroSection() {
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               className="border-b border-[var(--border-color)] pb-4"
             >
-              <span className="text-xs font-mono tracking-widest text-[var(--accent-color)] uppercase">
-                01 / Featured Work
+              <span className="text-xs font-mono tracking-widest text-[var(--accent-color)]">
+                Work Experience
               </span>
               <h2 className="text-2xl md:text-4xl font-bold font-serif text-[var(--foreground)] mt-2">
                 Building safer, more useful AI systems.
@@ -414,28 +469,26 @@ export default function HeroSection() {
                 style={{ transformStyle: "preserve-3d", perspective: 1000 }}
                 className="rounded-2xl border border-[var(--border-color)] bg-[var(--card-bg)] p-6 md:p-8 hover:border-[var(--accent-color)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_12px_40px_rgba(0,0,0,0.3)] transition-all duration-300 flex flex-col justify-between shadow-2xl"
               >
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="px-2 py-0.5 rounded-full text-[9px] font-bold font-mono tracking-widest bg-[var(--accent-color)]/15 text-[var(--accent-color)] border border-[var(--accent-color)]/30 uppercase">FEATURED</span>
-                  <span className="text-[10px] font-mono text-[var(--text-muted)]">JANITOR AI · BANGALORE / REMOTE</span>
-                  <span className="ml-auto status-badge px-2 py-0.5 rounded border border-[var(--accent-color)] text-[var(--accent-color)] text-[10px] font-mono font-semibold">2025 — PRESENT</span>
+                <div className="flex items-center justify-between gap-2 mb-2 text-[10px] text-[var(--text-muted)]">
+                  <span className="font-semibold text-[var(--accent-color)] tracking-wider">JANITOR AI · BANGALORE / REMOTE</span>
+                  <span>2025 — PRESENT</span>
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-[var(--foreground)]">
-                    AI Safety & Data Pipeline Engineer
+                  <h3 className="text-xl md:text-2xl font-bold font-serif text-[var(--foreground)]">
+                    AI Safety and Data Pipeline Engineer
                   </h3>
-                  <p className="text-xs text-[var(--text-muted)] font-mono mb-4 mt-1">Janitor AI</p>
 
-                  {/* Key numbers */}
-                  <div className="flex flex-wrap gap-3 mb-4">
+                  {/* Key Metrics - Clean Typography without boxed pill borders */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-3.5 my-4 border-y border-[var(--border-color)]">
                     {[
-                      { n: "3", label: "Agent architecture" },
-                      { n: "15+", label: "Integrated tools" },
-                      { n: "35%", label: "API cost savings" },
-                      { n: "Real-time", label: "PII redaction" },
+                      { n: "3", label: "Agent Architecture" },
+                      { n: "15+", label: "Integrated Tools" },
+                      { n: "35%", label: "Cost Savings" },
+                      { n: "Real-Time", label: "PII Redaction" },
                     ].map(({ n, label }) => (
-                      <div key={label} className="flex flex-col px-3 py-2 rounded-lg border border-[var(--border-color)] bg-[var(--glass-bg)]">
-                        <span className="text-sm font-bold text-[var(--accent-color)] font-mono">{n}</span>
-                        <span className="text-[9px] font-mono text-[var(--text-muted)]">{label}</span>
+                      <div key={label} className="flex flex-col">
+                        <span className="text-xl md:text-2xl font-extrabold text-[var(--foreground)] tracking-tight">{n}</span>
+                        <span className="text-[10px] text-[var(--text-muted)] mt-0.5">{label}</span>
                       </div>
                     ))}
                   </div>
@@ -453,16 +506,16 @@ export default function HeroSection() {
 
                 <div className="border-t border-[var(--border-color)] pt-4 mt-2 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-[10px] font-mono text-[var(--accent-color)] uppercase tracking-wider mr-1">Stack:</span>
+                    <span className="text-[10px] font-semibold tracking-wider text-[var(--foreground)] opacity-50 mr-1">Stack:</span>
                     {["Python", "Vercel", "LangChain", "Pydantic", "Ollama", "AI safety"].map(t => (
-                      <span key={t} className="text-[10px] font-mono bg-[var(--card-bg)] border border-[var(--border-color)] px-2 py-0.5 text-[var(--text-muted)] rounded">{t}</span>
+                      <span key={t} className="text-[10px] bg-[var(--card-bg)] border border-[var(--border-color)] px-2 py-0.5 text-[var(--text-muted)] rounded">{t}</span>
                     ))}
                   </div>
                   <a
                     href="https://janitorai-beta.vercel.app"
                     target="_blank"
                     rel="noopener"
-                    className="inline-flex items-center gap-1 text-[11px] font-mono text-[var(--accent-color)] hover:underline self-start sm:self-auto"
+                    className="inline-flex items-center gap-1 text-[11px] text-[var(--accent-color)] hover:underline self-start sm:self-auto"
                   >
                     janitorai-beta.vercel.app <ExternalLink size={10} />
                   </a>
@@ -480,13 +533,14 @@ export default function HeroSection() {
                 className="rounded-2xl border border-[var(--border-color)] bg-[var(--card-bg)] p-6 md:p-8 hover:border-[var(--accent-color)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_12px_40px_rgba(0,0,0,0.3)] transition-all duration-300 flex flex-col justify-between shadow-2xl"
               >
                 <div>
-                  <div className="flex items-center justify-between text-[10px] font-mono text-[var(--text-muted)] mb-2">
-                    <span>INDEPENDENT · REMOTE</span>
+                  <div className="flex items-center justify-between text-[10px] text-[var(--text-muted)] mb-2">
+                    <span className="font-semibold text-[var(--accent-color)] tracking-wider">INDEPENDENT · REMOTE</span>
+                    <span>2024 — PRESENT</span>
                   </div>
-                  <h3 className="text-xl font-bold text-[var(--foreground)]">
-                    AI & Agentic Systems Developer
+                  <h3 className="text-xl md:text-2xl font-bold font-serif text-[var(--foreground)]">
+                    AI and Agentic Systems Developer
                   </h3>
-                  <p className="text-xs text-[var(--text-muted)] font-mono mb-4 mt-1">Portfolio Platform</p>
+                  <p className="text-xs text-[var(--text-muted)] opacity-70 mb-4 mt-1">Portfolio Platform</p>
                   
                   <p className="text-sm text-[var(--foreground)] opacity-90 mb-4 leading-relaxed">
                     Created and deployed an agentic portfolio platform to present technical work through a more capable, interactive experience. Integrated custom APIs and Model Context Protocol (MCP) capabilities to distribute tasks and support autonomous execution.
@@ -501,16 +555,16 @@ export default function HeroSection() {
 
                 <div className="border-t border-[var(--border-color)] pt-4 mt-2 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-[10px] font-mono text-[var(--accent-color)] uppercase tracking-wider mr-1">Stack:</span>
+                    <span className="text-[10px] font-semibold tracking-wider text-[var(--foreground)] opacity-50 mr-1">Stack:</span>
                     {["Node.js", "TypeScript", "MCP SDK", "Next.js", "REST APIs"].map(t => (
-                      <span key={t} className="text-[10px] font-mono bg-[var(--card-bg)] border border-[var(--border-color)] px-2 py-0.5 text-[var(--text-muted)] rounded">{t}</span>
+                      <span key={t} className="text-[10px] bg-[var(--card-bg)] border border-[var(--border-color)] px-2 py-0.5 text-[var(--text-muted)] rounded">{t}</span>
                     ))}
                   </div>
                   <a
                     href="https://github.com/Sayyedhash888/memory-janitor"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-[11px] font-mono text-[var(--accent-color)] hover:underline self-start sm:self-auto"
+                    className="inline-flex items-center gap-1 text-[11px] text-[var(--accent-color)] hover:underline self-start sm:self-auto"
                   >
                     github.com/Sayyedhash888/memory-janitor <ExternalLink size={10} />
                   </a>
@@ -518,10 +572,12 @@ export default function HeroSection() {
               </motion.div>
 
             </div>
-          </div>
+            </div>
+          </CyberLazyLoad>
 
           {/* Section 02: Selected Work */}
-          <div id="projects-section" className="flex flex-col gap-8 scroll-mt-24">
+          <CyberLazyLoad>
+            <div id="projects-section" className="flex flex-col gap-8 scroll-mt-24">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -529,8 +585,8 @@ export default function HeroSection() {
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               className="border-b border-[var(--border-color)] pb-4"
             >
-              <span className="text-xs font-mono tracking-widest text-[var(--accent-color)] uppercase">
-                02 / Selected work
+              <span className="text-xs font-mono tracking-widest text-[var(--accent-color)]">
+                Featured Projects
               </span>
               <h2 className="text-2xl md:text-4xl font-bold font-serif text-[var(--foreground)] mt-2">
                 Data science and AI projects, in detail.
@@ -553,8 +609,8 @@ export default function HeroSection() {
                 {/* Header Row */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[var(--border-color)] pb-4">
                   <div>
-                    <span className="text-[10px] font-mono text-[var(--accent-color)] uppercase tracking-widest">
-                      01 — Model Development
+                    <span className="text-[10px] font-mono text-[var(--accent-color)] tracking-widest">
+                      Model Development
                     </span>
                     <h3 className="text-xl md:text-2xl font-bold font-serif text-[var(--foreground)] group-hover:text-[var(--accent-color)] transition-colors mt-1">
                       Personal SLM fine-tuning
@@ -630,8 +686,8 @@ export default function HeroSection() {
                 {/* Header Row */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[var(--border-color)] pb-4">
                   <div>
-                    <span className="text-[10px] font-mono text-[var(--accent-color)] uppercase tracking-widest">
-                      02 — Data Product
+                    <span className="text-[10px] font-mono text-[var(--accent-color)] tracking-widest">
+                      Data Product
                     </span>
                     <h3 className="text-xl md:text-2xl font-bold font-serif text-[var(--foreground)] group-hover:text-[var(--accent-color)] transition-colors mt-1">
                       Autonomous data science tool
@@ -707,11 +763,11 @@ export default function HeroSection() {
                 {/* Header Row */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[var(--border-color)] pb-4">
                   <div>
-                    <span className="text-[10px] font-mono text-[var(--accent-color)] uppercase tracking-widest">
-                      03 — Client Product
+                    <span className="text-[10px] font-mono text-[var(--accent-color)] tracking-widest">
+                      Client Product
                     </span>
                     <h3 className="text-xl md:text-2xl font-bold font-serif text-[var(--foreground)] group-hover:text-[var(--accent-color)] transition-colors mt-1">
-                      Operations & MIS portfolio with AI assistant
+                      Operations and MIS Portfolio with AI Assistant
                     </h3>
                   </div>
                   <div className="flex items-center gap-1 text-[10px] font-mono text-[var(--text-muted)] group-hover:text-[var(--accent-color)] transition-colors self-start sm:self-auto shrink-0">
@@ -784,8 +840,8 @@ export default function HeroSection() {
                 {/* Header Row */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[var(--border-color)] pb-4">
                   <div>
-                    <span className="text-[10px] font-mono text-[var(--accent-color)] uppercase tracking-widest">
-                      04 — Client Product
+                    <span className="text-[10px] font-mono text-[var(--accent-color)] tracking-widest">
+                      Client Product
                     </span>
                     <h3 className="text-xl md:text-2xl font-bold font-serif text-[var(--foreground)] group-hover:text-[var(--accent-color)] transition-colors mt-1">
                       Professional portfolio website
@@ -861,11 +917,11 @@ export default function HeroSection() {
                 {/* Header Row */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[var(--border-color)] pb-4">
                   <div>
-                    <span className="text-[10px] font-mono text-[var(--accent-color)] uppercase tracking-widest">
-                      05 — Research / Publications
+                    <span className="text-[10px] font-mono text-[var(--accent-color)] tracking-widest">
+                      Research and Publications
                     </span>
                     <h3 className="text-xl md:text-2xl font-bold font-serif text-[var(--foreground)] group-hover:text-[var(--accent-color)] transition-colors mt-1">
-                      Benchmarking SLM Performance & Integration
+                      Benchmarking SLM Performance and Integration
                     </h3>
                   </div>
                   <div className="flex items-center gap-1 text-[10px] font-mono text-[var(--text-muted)] group-hover:text-[var(--accent-color)] transition-colors self-start sm:self-auto shrink-0">
@@ -936,9 +992,11 @@ export default function HeroSection() {
               </motion.a>
 
             </div>
-          </div>
+            </div>
+          </CyberLazyLoad>
 
-          {/* Section 02: AI Architecture — "Holy Shit" Section */}
+          {/* Section 03: AI Architecture — "Holy Shit" Section */}
+          <CyberLazyLoad>
           <div className="flex flex-col gap-8">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -947,8 +1005,8 @@ export default function HeroSection() {
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               className="border-b border-[var(--border-color)] pb-4"
             >
-              <span className="text-xs font-mono tracking-widest text-[var(--accent-color)] uppercase">
-                02 / Architecture
+              <span className="text-xs font-mono tracking-widest text-[var(--accent-color)]">
+                System Architecture
               </span>
               <h2 className="text-2xl md:text-4xl font-bold font-serif text-[var(--foreground)] mt-2">
                 How the system works.
@@ -965,9 +1023,11 @@ export default function HeroSection() {
               <ArchitectureSection />
             </motion.div>
           </div>
+          </CyberLazyLoad>
 
-          {/* Section 03: Toolkit / Skills */}
-          <div id="toolkit-section" className="flex flex-col gap-8 scroll-mt-24">
+          {/* Section 04: Toolkit / Skills */}
+          <CyberLazyLoad>
+            <div id="toolkit-section" className="flex flex-col gap-8 scroll-mt-24">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -975,8 +1035,8 @@ export default function HeroSection() {
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               className="border-b border-[var(--border-color)] pb-4"
             >
-              <span className="text-xs font-mono tracking-widest text-[var(--accent-color)] uppercase">
-                03 / Toolkit
+              <span className="text-xs font-mono tracking-widest text-[var(--accent-color)]">
+                Technical Toolkit
               </span>
               <h2 className="text-2xl md:text-4xl font-bold font-serif text-[var(--foreground)] mt-2">
                 Grounded in data science, extended through applied AI.
@@ -1034,10 +1094,12 @@ export default function HeroSection() {
                 </motion.div>
               ))}
             </div>
-          </div>
+            </div>
+          </CyberLazyLoad>
 
-          {/* Section 04: Contact */}
-          <div id="contact" className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 items-center border-t border-[var(--border-color)] pt-12 sm:pt-16 mt-8 w-full max-w-full">
+          {/* Section 05: Contact */}
+          <CyberLazyLoad>
+            <div id="contact" className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 items-center border-t border-[var(--border-color)] pt-12 sm:pt-16 mt-8 w-full max-w-full">
             <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold font-serif text-[var(--foreground)] leading-tight">
               Have a difficult problem?<br />
               <span className="italic font-light text-[var(--text-muted)]">Let’s talk.</span>
@@ -1108,7 +1170,8 @@ export default function HeroSection() {
                 <span>English / Hindi</span>
               </div>
             </div>
-          </div>
+            </div>
+          </CyberLazyLoad>
 
         </div>
 

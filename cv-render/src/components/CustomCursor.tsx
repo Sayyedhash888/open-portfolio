@@ -23,6 +23,12 @@ export default function CustomCursor() {
   const depthZRef = useRef(1); // 3D depth: -1 (behind) to +1 (front)
   const pointsRef = useRef<Point[]>([]);
 
+  // Window/Modal top snap state tracking
+  const activeModalRef = useRef<Element | null>(null);
+  const modalOpenTimestampRef = useRef<number>(0);
+  const modalOpenPosRef = useRef<{ x: number; y: number }>({ x: -100, y: -100 });
+  const hasUserMovedSinceModalOpenRef = useRef<boolean>(true);
+
   // Randomized 3D orbit & entrance parameters generated on mount (different every reload)
   const orbitParamsRef = useRef({
     tiltAngle: (Math.random() - 0.5) * 0.8, // Randomized 3D tilt (-23° to +23°)
@@ -84,6 +90,43 @@ export default function CustomCursor() {
       let targetY = targetRef.current.y;
 
       const isPushingCurtain = !loaderEl && now - lastLoaderActiveTimeRef.current < 900 && !!curtainScreenEl;
+
+      // Check for active visible modal/window containers
+      const visibleModalEl = Array.from(
+        document.querySelectorAll('[data-modal-container="true"]')
+      ).find((el) => {
+        const rect = el.getBoundingClientRect();
+        const style = window.getComputedStyle(el);
+        return (
+          rect.width > 0 &&
+          rect.height > 0 &&
+          style.display !== "none" &&
+          style.visibility !== "hidden" &&
+          style.opacity !== "0" &&
+          style.pointerEvents !== "none"
+        );
+      }) as HTMLElement | null;
+
+      if (visibleModalEl) {
+        if (activeModalRef.current !== visibleModalEl) {
+          activeModalRef.current = visibleModalEl;
+          modalOpenTimestampRef.current = now;
+          hasUserMovedSinceModalOpenRef.current = false;
+          modalOpenPosRef.current = { x: targetRef.current.x, y: targetRef.current.y };
+        }
+      } else {
+        if (activeModalRef.current !== null) {
+          activeModalRef.current = null;
+          hasUserMovedSinceModalOpenRef.current = true;
+        }
+      }
+
+      const isModalTopSnap =
+        !!visibleModalEl &&
+        !hasUserMovedSinceModalOpenRef.current &&
+        !isAutonomous8s &&
+        !loaderEl &&
+        !isPushingCurtain;
 
       if (loaderEl && loaderNameEl) {
         lastLoaderActiveTimeRef.current = now;
@@ -157,6 +200,16 @@ export default function CustomCursor() {
         const jitterY = Math.cos(now / 20) * 5;
         targetX = startledPosRef.current.x + jitterX;
         targetY = startledPosRef.current.y + jitterY;
+      } else if (isModalTopSnap && visibleModalEl) {
+        depthZRef.current = 1;
+        // Window opening: Cursor hovers gracefully along the top edge passing time while user reads
+        const rect = visibleModalEl.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const hoverSwayX = Math.sin(now / 550) * Math.min(45, rect.width * 0.25);
+        const hoverFloatY = Math.sin(now / 280) * 3;
+
+        targetX = centerX + hoverSwayX;
+        targetY = Math.max(16, rect.top + 28 + hoverFloatY);
       } else if (isAutonomous8s) {
         depthZRef.current = 1;
         // > 8s Inactivity: Moving on its own (Autonomous Observation Mode)
@@ -203,29 +256,47 @@ export default function CustomCursor() {
           currentRef.current.x = targetX;
           currentRef.current.y = targetY;
         } else {
-          // Lerp factor: ultra fast responsiveness when entering screen, pushing curtain, or startled
-          const entranceElapsed = now - loaderStartTimeRef.current;
-          const isEntering = loaderEl && entranceElapsed < 520;
-
-          const lerpFactor = isEntering ? 0.35 : isPushingCurtain ? 0.45 : isStartled ? 0.35 : loaderEl ? 0.24 : 0.16;
-          const dx = targetX - currentRef.current.x;
-          const dy = targetY - currentRef.current.y;
-          currentRef.current.x += dx * lerpFactor;
-          currentRef.current.y += dy * lerpFactor;
-
-          if (Math.hypot(dx, dy) > 0.5) {
-            pointsRef.current.push({
-              x: currentRef.current.x,
-              y: currentRef.current.y,
-              time: now,
-            });
-          }
+           // Lerp factor: ultra fast responsiveness when entering screen, pushing curtain, or startled
+           const entranceElapsed = now - loaderStartTimeRef.current;
+           const isEntering = loaderEl && entranceElapsed < 520;
+ 
+           const isCyberpunk = document.documentElement.classList.contains("cyberpunk");
+ 
+           const lerpFactor = isCyberpunk
+             ? 0.28  // Fast but smooth — cyberpunk glitch effect is applied separately below
+             : isEntering
+             ? 0.35
+             : isPushingCurtain
+             ? 0.45
+             : isStartled
+             ? 0.35
+             : isModalTopSnap
+             ? 0.40
+             : loaderEl
+             ? 0.24
+             : 0.16;
+ 
+           const dx = targetX - currentRef.current.x;
+           const dy = targetY - currentRef.current.y;
+ 
+           currentRef.current.x += dx * lerpFactor;
+           currentRef.current.y += dy * lerpFactor;
+ 
+           if (Math.hypot(dx, dy) > 0.5) {
+             // In cyberpunk mode add ghost echo trails at slight offset for glitch look
+             const ghostOffset = isCyberpunk ? Math.sin(now / 80) * 2.5 : 0;
+             pointsRef.current.push({
+               x: currentRef.current.x + ghostOffset,
+               y: currentRef.current.y,
+               time: now,
+             });
+           }
         }
       }
 
       // Theme-aware accent color
       const isLight = document.documentElement.classList.contains("light");
-      const accent = isLight ? "#bd3d36" : "#a3e635";
+      const accent = getComputedStyle(document.documentElement).getPropertyValue("--accent-color").trim() || (isLight ? "#bd3d36" : "#a3e635");
 
       // Prune stale trail points (last 300ms)
       pointsRef.current = pointsRef.current.filter((p) => now - p.time < 300);
@@ -290,6 +361,10 @@ export default function CustomCursor() {
             shadowBlur = 14 + z * 10;
             baseAlpha = 1.0;
           }
+        } else if (isModalTopSnap) {
+          // Gentle breathing pulse while hovering at top of window passing time
+          shadowBlur = 18 + Math.sin(now / 320) * 8;
+          dotRadius = 4.8 + Math.sin(now / 450) * 0.8;
         } else if (isAutonomous8s) {
           shadowBlur = 14 + Math.sin(now / 200) * 6;
           dotRadius = 5;
@@ -318,7 +393,25 @@ export default function CustomCursor() {
       }
     };
 
+    const checkUserMovementOnModal = (x?: number, y?: number) => {
+      const now = Date.now();
+      if (!hasUserMovedSinceModalOpenRef.current && activeModalRef.current) {
+        const timeSinceOpen = now - modalOpenTimestampRef.current;
+        if (timeSinceOpen > 120) {
+          if (x !== undefined && y !== undefined) {
+            const dist = Math.hypot(x - modalOpenPosRef.current.x, y - modalOpenPosRef.current.y);
+            if (dist > 6) {
+              hasUserMovedSinceModalOpenRef.current = true;
+            }
+          } else {
+            hasUserMovedSinceModalOpenRef.current = true;
+          }
+        }
+      }
+    };
+
     const recordMove = (x?: number, y?: number) => {
+      checkUserMovementOnModal(x, y);
       triggerStartledIfNeeded();
       lastPointerMoveRef.current = Date.now();
       hasUserInteractedAfterCurtainRef.current = true;
@@ -327,7 +420,8 @@ export default function CustomCursor() {
       }
     };
 
-    const recordClick = () => {
+    const recordClick = (x?: number, y?: number) => {
+      checkUserMovementOnModal(x, y);
       triggerStartledIfNeeded();
       lastClickRef.current = Date.now();
       lastPointerMoveRef.current = Date.now();

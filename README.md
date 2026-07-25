@@ -44,16 +44,16 @@ Follow these steps using [`execution.md`](file:///d:/Hashir%20Play/execution.md)
 
 ---
 
-## 💼 Experience
+## 🚀 Featured Projects & Engineering Work
 
-### **AI Safety & Data Pipeline Engineer** @ Janitor AI
-*Remote | 2025 — Present*
+### **Janitor AI — Autonomous AI Safety & Data Pipeline Tool**
+*Live Project | 2025 — Present*
 * **Engineered & Deployed Autonomous Tool:** Built a decoupled, high-throughput data science tool on Vercel to automate complex data cleaning and preprocessing pipelines.
 * **Implemented BYOK Architecture:** Designed a Bring Your Own Key (BYOK) framework for secure, user-managed API key handling across the platform.
 * **Architected Security Safeguards:** Developed real-time PII detection/redaction pipelines and engineered guardrails against prompt injection and jailbreak exploits.
 * **Designed HITL & Agent Workflows:** Developed a collaborative three-agent workflow (Evaluation, Structural Validation, Task Execution) that automates complex data sanitization operations.
 * **Optimized LLM Performance:** Refined conversational memory and context-management systems for long-running interactions, utilizing prompt engineering and adversarial testing to ensure safety and quality.
-* **Live Project:** [janitorai-beta.vercel.app](https://janitorai-beta.vercel.app)
+* **Live Link:** [janitorai-beta.vercel.app](https://janitorai-beta.vercel.app)
 
 ---
 

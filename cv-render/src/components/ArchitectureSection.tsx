@@ -134,7 +134,7 @@ const STEP_DETAILS: Record<string, StepDetail> = {
 function VLine({ h = 20 }: { h?: number }) {
   return (
     <div className="relative w-px mx-auto bg-[var(--border-color)]" style={{ height: h }}>
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[var(--accent-color)] animate-ping" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-[var(--accent-color)] rounded-[1px]" />
     </div>
   );
 }
@@ -279,7 +279,7 @@ export default function ArchitectureSection() {
         onClick={() => setSelectedStep("final_output")}
         className="px-6 py-3 rounded-full border border-[var(--accent-color)] bg-[var(--accent-color)]/10 text-[var(--accent-color)] hover:bg-[var(--accent-color)]/25 text-xs font-bold font-mono tracking-widest flex items-center gap-2.5 transition-colors duration-150 transform-gpu cursor-pointer shadow-[0_0_20px_var(--accent-color)]/20"
       >
-        <CheckCircle2 size={16} className="text-[var(--accent-color)] animate-pulse" />
+        <CheckCircle2 size={16} className="text-[var(--accent-color)]" />
         <span>6. FINAL SANITIZED JSON OUTPUT</span>
       </button>
 

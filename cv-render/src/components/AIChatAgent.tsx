@@ -44,69 +44,91 @@ export default function AIChatAgent() {
   // Conversational response lookup dictionary
   const responseDictionary = [
     {
-      intent: "location",
-      keys: [/\b(from|based|location|live|living|bangalore|rajasthan|where)\b/i],
-      response:
-        "Hasir is based in **Bangalore, India**, but he is originally from **Rajasthan** and collaborates with global/remote teams!",
-    },
-    {
       intent: "identity",
-      keys: [/\b(who is he|who are you|who is hasir|who is hashir|tell me about yourself|your name|bio|profile|who is this|he|him|his)\b/i],
+      keys: [
+        /\b(who is hasir|who is hashir|kon hai hasir|hasir kaun hai|tell me about hasir|about hasir|who are you|bio|profile|kon ho aap|hasir ke bare me|introduce hasir|who is he|who is this)\b/i,
+      ],
       response:
-        "I am Hasir's custom-built portfolio assistant, running client-side to serve fast context about his research and engineering projects.\n\nHasir himself is an Applied AI engineer focusing on LLM safety, custom data pipelines, and agentic workflows. He is also a Data Science student at **IIT Madras**.",
+        "Hasir Sayed is a Data Science student at **IIT Madras** and an Applied AI Engineer specializing in **AI Safety**, **SLM Fine-Tuning**, and **Data Pipelines**.\n\nHe built the **Janitor AI Safety Pipeline** (an autonomous 3-agent data sanitization & PII redaction tool), published SLM benchmark research on Zenodo (DOI Record 21396947), and designs custom Model Context Protocol (MCP) servers.\n\nOriginally from Rajasthan, he is currently based in Bangalore, India.",
     },
     {
-      intent: "name",
-      keys: [/\b(hasir|hashir|haseer)\b/i],
+      intent: "janitor",
+      keys: [
+        /\b(janitor|janitor ai|janitor project|janitorai|janitor ai kya hai|janitor kya hai)\b/i,
+      ],
       response:
-        "Yep, that's me! (Spelled **Hasir**, but I answer to both Hasir and Hashir!). Spelled with an 'h' is super common, so no worries!\n\nI'm a Data Science student at IIT Madras and an Applied AI engineer focusing on LLM safety and agentic systems.",
+        "**Janitor AI** is one of Hasir's key engineering projects (live at [janitorai-beta.vercel.app](https://janitorai-beta.vercel.app)).\n\nIn this project, Hasir engineered an autonomous 3-agent pipeline for high-throughput data cleaning, real-time PII redaction, prompt-injection shields, and BYOK (Bring Your Own Key) architecture.",
     },
     {
       intent: "education",
-      keys: [/\b(iit|iitm|madras|education|degree|studies|study|mathematics|math|mdsu)\b/i],
+      keys: [
+        /\b(education|studies|study|iit|iit madras|degree|college|mdsu|padhai|education kya hai|kahan padhta hai|study background)\b/i,
+      ],
       response:
-        "My academic foundation includes:\n\n- **BS in Data Science & Applications** from **IIT Madras** (Online program).\n- **B.Sc. in Mathematics (Honours)** from **MDSU** (expected 2027).\n\nThis dual focus grounds my applied AI engineering in solid statistical methods and data science theory.",
-    },
-    {
-      intent: "resume",
-      keys: [/\b(resume|cv|biodata|pdf|document)\b/i],
-      response:
-        "You can view and download my official resume here: [**HASIR_SAYED.pdf ↗**](/HASIR_SAYED.pdf).\n\nIt contains a comprehensive overview of my AI Safety engineering at Janitor AI, Data Science BS at IIT Madras, and applied AI systems projects.",
-    },
-    {
-      intent: "experience",
-      keys: [/\b(experience|job|work|janitor|safety|guardrails|jailbreak|pipeline)\b/i],
-      response:
-        "I currently work as an **AI Safety & Data Pipeline Engineer at Janitor AI**.\n\nMy core work is designing autonomous three-agent sanitization pipelines, implementing real-time prompt-injection shields, and optimizing structural consistencies through multi-agent adversarial simulations.",
+        "Hasir's academic foundation includes:\n\n- **BS in Data Science & Applications** from **IIT Madras** (Expected 2027)\n- **B.Sc. in Mathematics (Honours)** from **MDSU, Ajmer** (Expected 2027)\n\nThis dual background combines strong mathematical & statistical theory with applied AI & machine learning.",
     },
     {
       intent: "projects",
-      keys: [/\b(project|projects|code|portfolio|tool|autonomous)\b/i],
+      keys: [
+        /\b(project|projects|work|built|build|projects kya hai|kya banaya hai|portfolio projects)\b/i,
+      ],
       response:
-        "Here are some of my key engineering projects:\n\n1. **Personal SLM Fine-Tuning:** Fine-tuned Qwen 2.5 on custom domain datasets with local quantized inference.\n2. **Autonomous Data Science Tool:** A multi-agent preprocessing pipeline deployed on Vercel.\n3. **Agentic MIS Portfolio:** An executive portfolio featuring a custom RAG-based assistant.\n\nWhich project would you like to explore in detail?",
+        "Hasir's featured engineering projects include:\n\n1. **Janitor AI Tool:** Autonomous 3-agent data sanitization & PII redaction pipeline ([janitorai-beta.vercel.app](https://janitorai-beta.vercel.app))\n2. **SLM Fine-Tuning:** Fine-tuned Qwen 2.5 (0.5B) on custom datasets using QLoRA for local quantized inference ([GitHub Repo](https://github.com/Sayyedhash888/H-Ai))\n3. **Agentic MIS Portfolio & MCP Servers:** Custom Model Context Protocol servers for LLM workspace automation.",
+    },
+    {
+      intent: "skills",
+      keys: [
+        /\b(skills|skill|tech stack|technologies|python|ai safety|skills kya hai|what are your skills)\b/i,
+      ],
+      response:
+        "Hasir's core technical toolkit includes:\n\n- **AI & Data Science:** Python, NumPy, Pandas, Scikit-Learn, PyTorch, SQL\n- **Applied AI & Safety:** SLM Fine-Tuning (Qwen 2.5 / QLoRA), RAG, Prompt Engineering, PII Redaction, Prompt Injection Defenses\n- **Systems & Dev:** Model Context Protocol (MCP), Git, Next.js, Vercel",
     },
     {
       intent: "publications",
-      keys: [/\b(publication|publications|research|paper|doi|zenodo|benchmark)\b/i],
+      keys: [
+        /\b(publication|publications|paper|research|doi|zenodo|research paper)\b/i,
+      ],
       response:
-        "I authored and published DOI-registered research on Zenodo: [**Benchmarking SLM Performance & Integration (Zenodo Record 21396947) ↗**](https://zenodo.org/records/21396947).\n\nThe research systematically benchmarks lightweight local language models across capability, speed, memory, and edge deployment trade-offs to aid model-selection decisions.",
+        "Hasir is a published researcher! He authored DOI-registered research on Zenodo:\n\n📄 [**Benchmarking SLM Performance & Integration (Zenodo Record 21396947) ↗**](https://zenodo.org/records/21396947)\n\nThe paper systematically benchmarks lightweight local language models across throughput, memory, and edge deployment trade-offs.",
     },
     {
-      intent: "mcp",
-      keys: [/\b(mcp|agent|context|server|protocol|systems)\b/i],
+      intent: "location",
+      keys: [
+        /\b(location|where is hasir|kahan ka hai|kahan rehta hai|city|bangalore|rajasthan|where do you live)\b/i,
+      ],
       response:
-        "I design custom servers using the **Model Context Protocol (MCP)**.\n\nThis allows localized LLMs to safely inspect workspace directories, read file contexts, and execute developer commands, turning static models into active workspace agents.",
+        "Hasir is currently based in **Bangalore, India**, and is originally from **Rajasthan**. He collaborates with remote and global engineering teams.",
     },
     {
       intent: "contact",
-      keys: [/\b(contact|email|phone|linkedin|github|reach|number|mail)\b/i],
+      keys: [
+        /\b(contact|email|phone|linkedin|github|resume|cv|pdf|contact kaise kare|reach)\b/i,
+      ],
       response:
-        "You can reach me directly through these channels:\n\n- **Email:** hasir160807@gmail.com\n- **Phone:** +91 8955270513\n- **GitHub:** [github.com/Sayyedhash888](https://github.com/Sayyedhash888)\n- **LinkedIn:** [linkedin.com/in/hasir-sayed](https://www.linkedin.com/in/hasir-sayed-365447413/)",
+        "You can connect with Hasir directly:\n\n- **Email:** hasir160807@gmail.com\n- **Phone:** +91 8955270513\n- **Resume:** [**HASIR_SAYED.pdf ↗**](/HASIR_SAYED.pdf)\n- **GitHub:** [github.com/Sayyedhash888](https://github.com/Sayyedhash888)\n- **LinkedIn:** [linkedin.com/in/hasir-sayed](https://www.linkedin.com/in/hasir-sayed-365447413/)",
+    },
+    {
+      intent: "greetings",
+      keys: [
+        /\b(hi|hello|hey|kaise ho|namaste|good morning|good evening|thanks|thank you)\b/i,
+      ],
+      response:
+        "Hello! 👋 I'm Hasir's AI assistant. Ask me anything about Hasir's background, Data Science at IIT Madras, his Janitor AI project, research paper, or technical skills!",
     },
   ];
 
-  const getAgentResponse = (message: string): string => {
+  const getPrebuiltResponse = (message: string): string | null => {
     const msg = message.toLowerCase().trim();
+
+    // Explanatory, technical, or clarification queries ALWAYS require live AI assistance!
+    const isExplanatoryQuery =
+      /\b(what is|what does|how does|how to|why|explain|i mean|meaning|tell me about the|details|elaborate)\b/i.test(
+        msg
+      );
+
+    if (isExplanatoryQuery) {
+      return null;
+    }
 
     // Contextual follow-up elaboration
     const isRequestingMore =
@@ -117,16 +139,16 @@ export default function AIChatAgent() {
 
     if (isRequestingMore && lastIntent) {
       if (lastIntent === "experience") {
-        return "At **Janitor AI**, my safety pipelines process millions of requests. I leverage LLM-in-the-loop evaluators to detect prompt injection risks and automatically format outputs, reducing safety escapes by 35%.";
+        return "In the **Janitor AI** project, Hasir built an autonomous 3-agent safety pipeline that processes high-throughput data cleaning, detects prompt injection risks, and redacts PII automatically.";
       }
       if (lastIntent === "projects") {
-        return "For the **SLM Fine-Tuning** project, I utilized Qlora to fine-tune Qwen 2.5-0.5B on mathematical reasoning data, achieving comparable performance to larger models on domain-specific benchmarks.";
+        return "For the **SLM Fine-Tuning** project, Hasir fine-tuned Qwen 2.5 (0.5B) on domain datasets using QLoRA for quantized local inference.";
       }
       if (lastIntent === "education") {
-        return "The BS in Data Science from **IIT Madras** covers programming in Python/Java, database management, machine learning models, and big data tools. It is highly hands-on and rigorous.";
+        return "The BS in Data Science from **IIT Madras** covers statistical analysis, machine learning models, and big data tools. It is highly hands-on and rigorous.";
       }
       if (lastIntent === "publications") {
-        return "My paper benchmarks models like Llama 3.2 1B and Qwen 2.5 1.5B on edge tasks, analyzing memory scaling and throughput bottlenecks in resource-constrained web containers.";
+        return "Hasir's Zenodo paper benchmarks models like Llama and Qwen on edge tasks, analyzing memory scaling and throughput bottlenecks in resource-constrained environments.";
       }
     }
 
@@ -139,11 +161,11 @@ export default function AIChatAgent() {
       }
     }
 
-    // Default fallback response
-    return "I am Hasir's custom-built portfolio assistant, designed to serve lightweight, lightning-fast context about his research and engineering projects directly in your browser without burning API costs.\n\nFeel free to select a quick-reply chip below or email Hasir directly at **hasir160807@gmail.com**!";
+    // Return null if query is outside prebuilt questions
+    return null;
   };
 
-  const handleSendMessage = (text: string) => {
+  const handleSendMessage = async (text: string) => {
     if (!text.trim()) return;
 
     // Append user message
@@ -152,15 +174,81 @@ export default function AIChatAgent() {
     setInputValue("");
     setIsTyping(true);
 
-    // Simulated typing delay
-    setTimeout(() => {
+    // 0. Prompt Injection Defense Shield
+    const PROMPT_INJECTION_PATTERNS = [
+      /ignore (all )?(previous|prior) (instructions|directions|prompts)/i,
+      /disregard (your|all) (system|prior) (instructions|prompt)/i,
+      /you are now in (developer|dan|unfiltered) mode/i,
+      /jailbreak/i,
+      /forget (all|your) (rules|instructions)/i,
+      /reveal (your|the) (system|initial|full) prompt/i,
+      /print (your|the) (system|initial) prompt/i,
+      /bypass (security|filters|guardrails)/i,
+      /act as an (unrestricted|unfiltered) (ai|model|bot)/i,
+    ];
+
+    if (PROMPT_INJECTION_PATTERNS.some((pattern) => pattern.test(text))) {
+      setTimeout(() => {
+        setIsTyping(false);
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: Date.now().toString(),
+            sender: "agent",
+            text:
+              "🛡️ **Security Shield Blocked**: Prompt injection, system override, or jailbreak attempt detected and blocked to protect system safety.",
+          },
+        ]);
+      }, 300);
+      return;
+    }
+
+    // 1. Check local prebuilt response dictionary first
+    const prebuiltReply = getPrebuiltResponse(text);
+
+    if (prebuiltReply) {
+      setTimeout(() => {
+        setIsTyping(false);
+        setMessages((prev) => [
+          ...prev,
+          { id: Date.now().toString(), sender: "agent", text: prebuiltReply },
+        ]);
+      }, 400);
+      return;
+    }
+
+    // 2. Outside prebuilt questions -> Trigger Two-Agent AI Bot via OpenRouter with context history
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: text, history: messages.slice(-6) }),
+      });
+
+      const data = await res.json();
       setIsTyping(false);
-      const agentReply = getAgentResponse(text);
+
+      const agentReply =
+        data.reply ||
+        "I am Hasir's AI assistant. Please ask me about Hasir's background, AI safety work at Janitor AI, Data Science at IIT Madras, or his projects!";
+
       setMessages((prev) => [
         ...prev,
         { id: Date.now().toString(), sender: "agent", text: agentReply },
       ]);
-    }, 800);
+    } catch (err) {
+      console.error("Error contacting AI agent endpoint:", err);
+      setIsTyping(false);
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: Date.now().toString(),
+          sender: "agent",
+          text:
+            "I am Hasir's portfolio AI assistant! Feel free to ask about his background, projects, or reach him directly at **hasir160807@gmail.com**.",
+        },
+      ]);
+    }
   };
 
   // Convert markdown links e.g. [text](url) to HTML links
@@ -191,15 +279,12 @@ export default function AIChatAgent() {
         }`}
         aria-label="Open AI Assistant"
       >
-        <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent-color)] opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--accent-color)]"></span>
-        </span>
         ✦ ASK AI AGENT
       </button>
 
       {/* Slide-out Chat Panel */}
       <div
+        data-modal-container="true"
         className={`fixed right-0 bottom-0 md:bottom-6 md:right-6 w-full md:w-[380px] h-full md:h-[550px] bg-[var(--card-bg)]/95 backdrop-blur-xl border-t md:border border-[var(--border-color)] md:rounded-2xl shadow-2xl flex flex-col overflow-hidden transition-all duration-300 z-50 ${
           isOpen ? "translate-y-0 opacity-100 scale-100" : "translate-y-20 opacity-0 scale-95 pointer-events-none"
         }`}
