@@ -272,29 +272,29 @@ export default function HeroSection() {
           {/* A. Central Typography & CTAs */}
           <motion.div
             style={{ y: heroY }}
-            className="max-w-2xl text-center px-4 z-10 pointer-events-auto"
+            className="w-full max-w-xl md:max-w-2xl text-center px-4 sm:px-6 z-10 pointer-events-auto flex flex-col items-center mx-auto"
           >
             {/* Top Pill Badge */}
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-[var(--border-color)] bg-[var(--card-bg)] text-[10px] font-bold tracking-widest text-[var(--text-muted)] uppercase mb-6 font-mono transition-colors duration-300">
-              <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent-color)] animate-pulse"></span>
-              DATA SCIENCE / APPLIED AI / RESEARCH
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-[var(--border-color)] bg-[var(--card-bg)] text-[9px] sm:text-[10px] font-bold tracking-widest text-[var(--text-muted)] uppercase mb-5 sm:mb-6 font-mono transition-colors duration-300 max-w-full overflow-hidden text-ellipsis whitespace-nowrap">
+              <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent-color)] animate-pulse shrink-0"></span>
+              <span className="truncate">DATA SCIENCE / APPLIED AI / RESEARCH</span>
             </div>
 
             {/* Main Heading */}
-            <h1 className="text-4xl md:text-6xl font-extrabold text-[var(--foreground)] font-serif leading-[1.05] tracking-tight mb-6 transition-colors duration-300">
-              Making machines <br />
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-[var(--foreground)] font-serif leading-[1.08] sm:leading-[1.05] tracking-tight mb-4 sm:mb-6 transition-colors duration-300 w-full px-2">
+              Making machines <br className="hidden sm:inline" />
               <span className="italic font-light text-[var(--text-muted)]">understand</span> people.
             </h1>
 
             {/* Subtitle */}
-            <p className="text-[var(--text-muted)] text-sm md:text-base max-w-lg mx-auto leading-relaxed mb-8 transition-colors duration-300">
+            <p className="text-[var(--text-muted)] text-xs sm:text-sm md:text-base w-full max-w-sm sm:max-w-lg mx-auto leading-relaxed mb-6 sm:mb-8 transition-colors duration-300 px-3 sm:px-0">
               Hasir Sayed is a data science student and AI/ML engineer building
               reliable language systems, safer AI workflows, and practical data
               products.
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex items-center justify-center gap-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto px-4 sm:px-0">
               <a
                 href="#experience-section"
                 onClick={(e) => {
@@ -303,7 +303,7 @@ export default function HeroSection() {
                     .getElementById("experience-section")
                     ?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="px-6 py-3 rounded-full bg-[var(--foreground)] text-[var(--background)] text-xs font-bold tracking-wider uppercase hover:shadow-[0_0_24px_var(--accent-color)] hover:opacity-90 transition-all duration-300 shadow-lg"
+                className="w-full sm:w-auto px-6 py-3.5 sm:py-3 rounded-full bg-[var(--foreground)] text-[var(--background)] text-xs font-bold tracking-wider uppercase hover:shadow-[0_0_24px_var(--accent-color)] hover:opacity-90 transition-all duration-300 shadow-lg text-center"
               >
                 EXPLORE PROJECTS ↓
               </a>
@@ -311,7 +311,7 @@ export default function HeroSection() {
                 href="/HASIR_SAYED.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-6 py-3 rounded-full border border-[var(--border-color)] bg-[var(--card-bg)] text-xs font-bold tracking-wider uppercase hover:bg-[var(--border-color)] hover:border-[var(--border-hover)] transition-all font-mono text-[var(--foreground)]"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-6 py-3.5 sm:py-3 rounded-full border border-[var(--border-color)] bg-[var(--card-bg)] text-xs font-bold tracking-wider uppercase hover:bg-[var(--border-color)] hover:border-[var(--border-hover)] transition-all font-mono text-[var(--foreground)] text-center"
               >
                 RESUME ↗
               </a>
