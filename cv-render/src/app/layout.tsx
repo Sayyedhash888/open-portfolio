@@ -37,6 +37,12 @@ export default function RootLayout({
             __html: `
               (function() {
                 try {
+                  if ('scrollRestoration' in history) {
+                    history.scrollRestoration = 'manual';
+                  }
+                  window.scrollTo(0, 0);
+                } catch (e) {}
+                try {
                   var savedTheme = localStorage.getItem('theme');
                   if (savedTheme === 'dark') {
                     document.documentElement.classList.remove('light');

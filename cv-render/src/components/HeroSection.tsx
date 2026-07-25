@@ -27,7 +27,7 @@ import {
 import Navbar from "./Navbar";
 import AIChatAgent from "./AIChatAgent";
 import NeuralBackground from "./NeuralBackground";
-import ArchitectureSection from "./ArchitectureSection";
+import ArchitectureSection from "@/components/ArchitectureSection";
 
 export default function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -64,6 +64,16 @@ export default function HeroSection() {
     }
   });
 
+  // Force scroll to top (Hero section) on page load / reload
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if ("scrollRestoration" in window.history) {
+        window.history.scrollRestoration = "manual";
+      }
+      window.scrollTo(0, 0);
+    }
+  }, []);
+
   // Lock scroll during loading
   useEffect(() => {
     if (showLoader) {
@@ -95,21 +105,24 @@ export default function HeroSection() {
       {/* 0. CURTAIN LOADER SCREEN */}
       {loaderMounted && (
         <motion.div
+          id="curtain-loader-screen"
+          data-loader-active={showLoader ? "true" : "false"}
           initial={{ y: 0 }}
           animate={{
             y: showLoader ? 0 : "-100vh",
           }}
-          transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
+          transition={{ duration: 0.85, ease: [0.76, 0, 0.24, 1] }}
           onAnimationComplete={() => {
             if (!showLoader) {
               setLoaderMounted(false);
             }
           }}
-          className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-[var(--background)] border-b border-[var(--border-color)] ${!showLoader ? "pointer-events-none" : ""}`}
+          className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-[var(--background)] border-b-2 border-[var(--accent-color)] ${!showLoader ? "pointer-events-none" : ""}`}
         >
           <div className="flex flex-col items-center gap-6 select-none">
             {/* Animated Name */}
             <motion.div
+              id="loader-name-target"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: [0, 1, 1], scale: [0.98, 1, 1] }}
               transition={{ duration: 1.2, ease: "easeOut" }}
@@ -124,7 +137,7 @@ export default function HeroSection() {
                 initial={{ width: "0%" }}
                 animate={{ width: "100%" }}
                 transition={{
-                  duration: 0.9,
+                  duration: 1.8,
                   ease: "easeInOut",
                 }}
                 onAnimationComplete={() => {
@@ -1024,35 +1037,35 @@ export default function HeroSection() {
           </div>
 
           {/* Section 04: Contact */}
-          <div id="contact" className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center border-t border-[var(--border-color)] pt-16 mt-8">
-            <h2 className="text-3xl md:text-5xl font-extrabold font-serif text-[var(--foreground)] leading-tight">
+          <div id="contact" className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 items-center border-t border-[var(--border-color)] pt-12 sm:pt-16 mt-8 w-full max-w-full">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold font-serif text-[var(--foreground)] leading-tight">
               Have a difficult problem?<br />
               <span className="italic font-light text-[var(--text-muted)]">Let’s talk.</span>
             </h2>
 
-            <div className="border-l border-[var(--border-color)] pl-0 md:pl-8 flex flex-col gap-6">
-              <p className="text-[var(--text-muted)] text-sm leading-relaxed">
+            <div className="border-l-0 md:border-l border-[var(--border-color)] pl-0 md:pl-8 flex flex-col gap-5 sm:gap-6 w-full max-w-full">
+              <p className="text-[var(--text-muted)] text-xs sm:text-sm leading-relaxed">
                 For collaborations, roles, or a thoughtful technical conversation, send a note. I read every message.
               </p>
 
-              <div className="flex flex-col border-t border-b border-[var(--border-color)] divide-y divide-[var(--border-color)] max-w-sm">
+              <div className="flex flex-col border-t border-b border-[var(--border-color)] divide-y divide-[var(--border-color)] w-full max-w-sm">
                 
                 {/* Email */}
                 <a
                   href="mailto:hasir160807@gmail.com"
-                  className="flex items-center gap-3 py-3 text-[var(--foreground)] hover:text-[var(--accent-color)] transition-all hover:translate-x-1"
+                  className="flex items-center gap-3 py-3 text-[var(--foreground)] hover:text-[var(--accent-color)] transition-all hover:translate-x-1 min-w-0"
                 >
-                  <Mail size={16} className="text-[var(--text-muted)]" />
-                  <span className="text-sm font-mono">hasir160807@gmail.com</span>
+                  <Mail size={16} className="text-[var(--text-muted)] shrink-0" />
+                  <span className="text-xs sm:text-sm font-mono truncate">hasir160807@gmail.com</span>
                 </a>
 
                 {/* Phone */}
                 <a
                   href="tel:+918955270513"
-                  className="flex items-center gap-3 py-3 text-[var(--foreground)] hover:text-[var(--accent-color)] transition-all hover:translate-x-1"
+                  className="flex items-center gap-3 py-3 text-[var(--foreground)] hover:text-[var(--accent-color)] transition-all hover:translate-x-1 min-w-0"
                 >
-                  <Phone size={16} className="text-[var(--text-muted)]" />
-                  <span className="text-sm font-mono">+91 8955270513</span>
+                  <Phone size={16} className="text-[var(--text-muted)] shrink-0" />
+                  <span className="text-xs sm:text-sm font-mono truncate">+91 8955270513</span>
                 </a>
 
                 {/* GitHub */}
@@ -1060,10 +1073,10 @@ export default function HeroSection() {
                   href="https://github.com/Sayyedhash888"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 py-3 text-[var(--foreground)] hover:text-[var(--accent-color)] transition-all hover:translate-x-1"
+                  className="flex items-center gap-3 py-3 text-[var(--foreground)] hover:text-[var(--accent-color)] transition-all hover:translate-x-1 min-w-0"
                 >
-                  <Github size={16} className="text-[var(--text-muted)]" />
-                  <span className="text-sm font-mono">GitHub</span>
+                  <Github size={16} className="text-[var(--text-muted)] shrink-0" />
+                  <span className="text-xs sm:text-sm font-mono truncate">GitHub</span>
                 </a>
 
                 {/* LinkedIn */}
@@ -1071,25 +1084,25 @@ export default function HeroSection() {
                   href="https://www.linkedin.com/in/hasir-sayed-365447413/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 py-3 text-[var(--foreground)] hover:text-[var(--accent-color)] transition-all hover:translate-x-1"
+                  className="flex items-center gap-3 py-3 text-[var(--foreground)] hover:text-[var(--accent-color)] transition-all hover:translate-x-1 min-w-0"
                 >
-                  <Linkedin size={16} className="text-[var(--text-muted)]" />
-                  <span className="text-sm font-mono">LinkedIn</span>
+                  <Linkedin size={16} className="text-[var(--text-muted)] shrink-0" />
+                  <span className="text-xs sm:text-sm font-mono truncate">LinkedIn</span>
                 </a>
 
                 {/* Resume */}
                 <a
                   href="/HASIR_SAYED.pdf"
                   target="_blank"
-                  className="flex items-center gap-3 py-3 text-[var(--foreground)] hover:text-[var(--accent-color)] transition-all hover:translate-x-1"
+                  className="flex items-center gap-3 py-3 text-[var(--foreground)] hover:text-[var(--accent-color)] transition-all hover:translate-x-1 min-w-0"
                 >
-                  <FileText size={16} className="text-[var(--text-muted)]" />
-                  <span className="text-sm font-mono">Resume</span>
+                  <FileText size={16} className="text-[var(--text-muted)] shrink-0" />
+                  <span className="text-xs sm:text-sm font-mono truncate">Resume</span>
                 </a>
 
               </div>
 
-              <div className="flex items-center gap-4 text-xs text-[var(--text-muted)] font-mono">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs text-[var(--text-muted)] font-mono">
                 <span>Bangalore, India</span>
                 <span>•</span>
                 <span>English / Hindi</span>
@@ -1100,27 +1113,27 @@ export default function HeroSection() {
         </div>
 
         {/* Footer */}
-        <footer className="border-t border-[var(--border-color)] py-16 mt-12 px-6 md:px-12">
-          <div className="max-w-4xl mx-auto flex flex-col items-center gap-8 text-center">
-            <h2 className="text-3xl md:text-5xl font-extrabold font-serif text-[var(--foreground)] leading-tight">
+        <footer className="border-t border-[var(--border-color)] py-12 sm:py-16 mt-12 px-4 sm:px-8 md:px-12 w-full max-w-full">
+          <div className="max-w-4xl mx-auto flex flex-col items-center gap-6 sm:gap-8 text-center">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold font-serif text-[var(--foreground)] leading-tight px-2">
               Let&apos;s build something<br />
               <span className="italic font-light text-[var(--text-muted)]">people actually use.</span>
             </h2>
-            <div className="flex flex-wrap justify-center gap-4">
-              <a href="mailto:hasir160807@gmail.com" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-[var(--border-color)] bg-[var(--card-bg)] text-xs font-mono text-[var(--foreground)] hover:border-[var(--accent-color)] hover:text-[var(--accent-color)] transition-all">
-                <Mail size={12} /> hasir160807@gmail.com
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-4 w-full max-w-full px-2">
+              <a href="mailto:hasir160807@gmail.com" className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border border-[var(--border-color)] bg-[var(--card-bg)] text-[10px] sm:text-xs font-mono text-[var(--foreground)] hover:border-[var(--accent-color)] hover:text-[var(--accent-color)] transition-all truncate max-w-full">
+                <Mail size={12} className="shrink-0" /> <span className="truncate">hasir160807@gmail.com</span>
               </a>
-              <a href="https://github.com/Sayyedhash888" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-[var(--border-color)] bg-[var(--card-bg)] text-xs font-mono text-[var(--foreground)] hover:border-[var(--accent-color)] hover:text-[var(--accent-color)] transition-all">
-                <Github size={12} /> GitHub ↗
+              <a href="https://github.com/Sayyedhash888" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border border-[var(--border-color)] bg-[var(--card-bg)] text-[10px] sm:text-xs font-mono text-[var(--foreground)] hover:border-[var(--accent-color)] hover:text-[var(--accent-color)] transition-all">
+                <Github size={12} className="shrink-0" /> GitHub ↗
               </a>
-              <a href="https://www.linkedin.com/in/hasir-sayed-365447413/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-[var(--border-color)] bg-[var(--card-bg)] text-xs font-mono text-[var(--foreground)] hover:border-[var(--accent-color)] hover:text-[var(--accent-color)] transition-all">
-                <Linkedin size={12} /> LinkedIn ↗
+              <a href="https://www.linkedin.com/in/hasir-sayed-365447413/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border border-[var(--border-color)] bg-[var(--card-bg)] text-[10px] sm:text-xs font-mono text-[var(--foreground)] hover:border-[var(--accent-color)] hover:text-[var(--accent-color)] transition-all">
+                <Linkedin size={12} className="shrink-0" /> LinkedIn ↗
               </a>
-              <a href="/HASIR_SAYED.pdf" target="_blank" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-[var(--border-color)] bg-[var(--card-bg)] text-xs font-mono text-[var(--foreground)] hover:border-[var(--accent-color)] hover:text-[var(--accent-color)] transition-all">
-                <FileText size={12} /> Resume ↗
+              <a href="/HASIR_SAYED.pdf" target="_blank" className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border border-[var(--border-color)] bg-[var(--card-bg)] text-[10px] sm:text-xs font-mono text-[var(--foreground)] hover:border-[var(--accent-color)] hover:text-[var(--accent-color)] transition-all">
+                <FileText size={12} className="shrink-0" /> Resume ↗
               </a>
             </div>
-            <div className="flex items-center gap-4 text-[10px] font-mono text-[var(--text-muted)]">
+            <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-4 text-[10px] font-mono text-[var(--text-muted)]">
               <span>© 2026 Hasir Sayed</span>
               <span>·</span>
               <span>Bangalore, India</span>

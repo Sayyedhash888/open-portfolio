@@ -56,11 +56,19 @@
                 fill 0.75s cubic-bezier(0.16, 1, 0.3, 1) !important;
   }
 
-  /* Custom View Transition Animations */
+  /* Hardware View Transition Curtain Stacking */
   ::view-transition-old(root),
   ::view-transition-new(root) {
     animation: none;
     mix-blend-mode: normal;
+  }
+
+  ::view-transition-old(root) {
+    z-index: 1;
+  }
+
+  ::view-transition-new(root) {
+    z-index: 9999;
   }
 }
 
@@ -71,4 +79,18 @@
 
 @theme inline {
   --animate-marquee: marquee 28s linear infinite;
+}
+
+/* Hide Next.js dev indicator badge overlay */
+nextjs-portal,
+[data-nextjs-toast],
+[data-nextjs-dev-overlay],
+[data-nextjs-dialog-header],
+[data-nextjs-toast-errors-parent],
+div[class*="nextjs-portal"],
+div[class*="nextjs-toast"] {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
 }

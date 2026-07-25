@@ -3,8 +3,11 @@
 import React, { useEffect, useState } from "react";
 import { Github, Linkedin, ArrowUpRight, Sun, Moon } from "lucide-react";
 
+import ContactModal from "./ContactModal";
+
 export default function Navbar() {
   const [isLight, setIsLight] = useState(true);
+  const [isContactOpen, setIsContactOpen] = useState(false);
 
   useEffect(() => {
     // Check localStorage or default to Light mode for new users
@@ -37,7 +40,7 @@ export default function Navbar() {
       updateDOM();
       setTimeout(() => {
         document.documentElement.classList.remove("theme-transition");
-      }, 700);
+      }, 530);
       return;
     }
 
@@ -46,23 +49,18 @@ export default function Navbar() {
     });
 
     transition.ready.then(() => {
-      const clipPath = isLight
-        ? [
-            "polygon(0 100%, 100% 100%, 100% 100%, 0 100%)",
-            "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
-          ]
-        : [
-            "polygon(0 0, 100% 0, 100% 0, 0 0)",
-            "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
-          ];
+      // Smooth 60FPS curtain wipe using hardware-accelerated inset() (530ms)
+      const curtainClip = isLight
+        ? ["inset(0 0 100% 0)", "inset(0 0 0 0)"]
+        : ["inset(100% 0 0 0)", "inset(0 0 0 0)"];
 
       document.documentElement.animate(
         {
-          clipPath: clipPath,
+          clipPath: curtainClip,
         },
         {
-          duration: 750,
-          easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+          duration: 530,
+          easing: "cubic-bezier(0.25, 1, 0.5, 1)",
           pseudoElement: "::view-transition-new(root)",
         }
       );
@@ -131,18 +129,20 @@ export default function Navbar() {
           </a>
         </div>
 
-        <a
-          href="mailto:hasir160807@gmail.com"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[var(--border-color)] bg-[var(--card-bg)] text-[11px] font-bold tracking-widest text-[var(--foreground)] uppercase hover:bg-[var(--border-color)] hover:border-[var(--border-hover)] transition-all font-mono shadow-inner"
+        <button
+          onClick={() => setIsContactOpen(true)}
+          className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border border-[var(--border-color)] bg-[var(--card-bg)] text-[10px] sm:text-[11px] font-bold tracking-widest text-[var(--foreground)] uppercase hover:bg-[var(--border-color)] hover:border-[var(--border-hover)] transition-all font-mono shadow-inner cursor-pointer"
         >
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent-color)] opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--accent-color)]"></span>
           </span>
-          AVAILABLE FOR WORK
-          <ArrowUpRight size={12} className="text-[var(--text-muted)]" />
-        </a>
+          <span>AVAILABLE FOR WORK</span>
+          <ArrowUpRight size={12} className="text-[var(--text-muted)] shrink-0" />
+        </button>
       </div>
+
+      <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
     </nav>
   );
 }

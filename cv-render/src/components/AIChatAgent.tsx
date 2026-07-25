@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Send, X, MessageSquare, Bot } from "lucide-react";
+import { Send, X, MessageSquare, Bot, Briefcase, Rocket, GraduationCap, Mail, FileText } from "lucide-react";
 
 interface Message {
   id: string;
@@ -255,17 +255,20 @@ export default function AIChatAgent() {
 
         {/* Suggestions chips */}
         <div className="px-5 pb-3 flex flex-wrap gap-2">
-          {["experience", "projects", "publications", "contact", "resume"].map((query) => (
+          {[
+            { id: "experience", label: "Experience", icon: <Briefcase size={12} /> },
+            { id: "projects", label: "Projects", icon: <Rocket size={12} /> },
+            { id: "publications", label: "Publications", icon: <GraduationCap size={12} /> },
+            { id: "contact", label: "Contact", icon: <Mail size={12} /> },
+            { id: "resume", label: "Resume", icon: <FileText size={12} /> },
+          ].map((item) => (
             <button
-              key={query}
-              onClick={() => handleSendMessage(query)}
-              className="text-[10px] font-mono px-3 py-1.5 rounded-full border border-[var(--border-color)] bg-[var(--card-bg)] text-[var(--text-muted)] hover:bg-[var(--accent-color)] hover:text-slate-950 hover:border-[var(--accent-color)] transition-all"
+              key={item.id}
+              onClick={() => handleSendMessage(item.id)}
+              className="inline-flex items-center gap-1.5 text-[10px] font-mono px-3 py-1.5 rounded-full border border-[var(--border-color)] bg-[var(--card-bg)] text-[var(--text-muted)] hover:bg-[var(--accent-color)] hover:text-slate-950 hover:border-[var(--accent-color)] transition-all cursor-pointer"
             >
-              {query === "experience" && "💼 Experience"}
-              {query === "projects" && "🚀 Projects"}
-              {query === "publications" && "🎓 Publications"}
-              {query === "contact" && "✉️ Contact"}
-              {query === "resume" && "📄 Resume"}
+              <span className="shrink-0">{item.icon}</span>
+              <span>{item.label}</span>
             </button>
           ))}
         </div>
