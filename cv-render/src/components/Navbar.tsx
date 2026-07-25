@@ -4,17 +4,17 @@ import React, { useEffect, useState } from "react";
 import { Github, Linkedin, ArrowUpRight, Sun, Moon } from "lucide-react";
 
 export default function Navbar() {
-  const [isLight, setIsLight] = useState(false);
+  const [isLight, setIsLight] = useState(true);
 
   useEffect(() => {
-    // Check localStorage or system preference
+    // Check localStorage or default to Light mode for new users
     const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "light") {
-      setIsLight(true);
-      document.documentElement.classList.add("light");
-    } else {
+    if (savedTheme === "dark") {
       setIsLight(false);
       document.documentElement.classList.remove("light");
+    } else {
+      setIsLight(true);
+      document.documentElement.classList.add("light");
     }
   }, []);
 
